@@ -119,22 +119,30 @@
 	<button type="button" id="btnConnect" class="btn btn-secondary text-uppercase mx-2">Connect</button>
 </div>
 
-<!-- Transfer Stake -->
+<!-- Recovery Functions-->
 <div class="container" style="margin-top: 50px; margin-bottom: 50px;">
 	<div class="container mx-auto px-0" style="max-width: 600px;">
-		<h2>Transfer a Stake</h2>
+		<h2>Recovery</h2>
 		
-		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputTransferAddress" placeholder="RECEIVER_ADDRESS" name="address">
-		<button type="button" id="btnTransfer" class="btn btn-primary btn-lg text-uppercase">
+		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputTransferAddress" placeholder="ADDRESS" name="address">
+		<button type="button" id="btnSet" class="btn btn-primary btn-lg text-uppercase">
 			<span id="spinBtnTransfer" class="spinner-border spinner-border-sm spinner-size"></span>
-			Transfer
+			Set Recovery
+		</button>
+		<button type="button" id="btnToggleBlock" class="btn btn-secondary btn-lg text-uppercase">
+			<span id="spinBtnTransfer" class="spinner-border spinner-border-sm spinner-size"></span>
+			Un/Block
+		</button>
+		<button type="button" id="btnRecover" class="btn btn-secondary btn-lg text-uppercase">
+			<span id="spinBtnTransfer" class="spinner-border spinner-border-sm spinner-size"></span>
+			Recover
 		</button>
 	</div>
 </div>
 
-<!-- Transferrable Stakes -->
+<!-- Recoverrable Stakes -->
 <div class="container" style="margin-top: 20px; margin-bottom: 50px;">
-	<h2>Transferrable Stakes</h2>
+	<h2>Recoverrable Stakes</h2>
 	
 	<div class="table-responsive">
 		<table id="stakeTable" class="table table-dark table-hover text-center">
