@@ -24,11 +24,60 @@ function mintHearts(receiver) {
 	});
 }
 
+// Contract Recovery
+function setRecovery(recovery) {
+	bayContract.setRecovery(recovery, function(error, result) {
+		if (!error) {
+			console.log("Setting recovery address to " + recovery);
+			// show button spinner
+			showSpinner('#spinBtnSet');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
+function toggleRecoveryMode(user) {
+	bayContract.toggleRecoveryMode(user, function(error, result) {
+		if (!error) {
+			console.log("Toggling recovery mode");
+			// show button spinner
+			showSpinner('#spinBtnBlock');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
+function unlockActionFrame() {
+	bayContract.unlockActionFrame(function(error, result) {
+		if (!error) {
+			console.log("Unlocking action frame");
+			// show button spinner
+			//showSpinner('#spinBtnBlock');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
+function stakeRecover(stakeId, owner, receiver) {
+	bayContract.stakeRecover(stakeId, owner, receiver, function(error, result) {
+		if (!error) {
+			console.log("Recovering stake " + stakeId + " from " + owner + " to " + receiver);
+			// show button spinner
+			showSpinner('#spinBtnRecover');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
 // Contract Base
 function stakeStart(hearts, days, referral) {
 	bayContract.stakeStart(hearts, days, referral, function(error, result) {
 		if(!error) {
-			console.log("Staked Hearts: " + hearts + " for days: " + days + " with ref: " + referral);
+			console.log("Staking Hearts: " + hearts + " for days: " + days + " with ref: " + referral);
 			// show button spinner
 			showSpinner('#spinBtnStake');
 		} else {

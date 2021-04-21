@@ -18,12 +18,26 @@ window.addEventListener('load', (event) => {
 });
 
 function init() {	
-	// Transfer button click event listener
-	document.getElementById('btnTransfer').addEventListener("click", function() {
-		let receiver = document.getElementById('inputTransferAddress').value;
-		let stakeId = selectedStake.stakeId;
-		stakeTransfer(stakeId, receiver);
+	// Set Recovery button click event listener
+	document.getElementById('btnSet').addEventListener("click", function() {
+		let recovery = document.getElementById('inputAddress').value;
+		setRecovery(recovery);
 	});
+	
+	// Toggle Recovery Mode  button click event listener
+	document.getElementById('btnToggleBlock').addEventListener("click", function() {
+		let user = document.getElementById('inputAddress').value;
+		toggleRecoveryMode(user);
+	});
+	
+	// Recovery Stake button click event listener
+	document.getElementById('btnRecover').addEventListener("click", function() {
+		let receiver = document.getElementById('inputAddress').value;
+		let stakeId = selectedStake.stakeId;
+		let owner = selectedStake.stakeOwner;
+		stakeRecover(stakeId, owner, receiver);
+	});
+
 	
 	// Event listener
 	initTransferEvents();
