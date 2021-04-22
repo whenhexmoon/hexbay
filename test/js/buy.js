@@ -217,9 +217,9 @@ function getStakeData(id, amount) {
 			stake.stakeIndexUser = result[1].toNumber();
 			stake.stakeIndexContract = result[2].toNumber();
 			stake.stakeTransferred = result[3];
-			stake.stakeIndexTrade = result[4].toNumber();
-			stake.stakePrice = result[5];
-			stake.isForSale = result[6];
+			stake.isForSale = result[4];
+			stake.stakeIndexTrade = result[5].toNumber();
+			stake.stakePrice = result[6];
 			stakeMap.set(id.toNumber(), stake);
 			
 			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);

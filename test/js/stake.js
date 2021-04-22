@@ -194,13 +194,14 @@ function getDailyData() {
 
 /* 
  * // Basic
- * result[0] = address stakeOwner;             // owner address, used to dereferenciate any stake id
- * result[1] = uint256 stakeIndexUser;         // stake position of 'stakeListIds'
- * result[2] = uint256 stakeIndexContract;     // stake position of HEX
+ * result[0] = address stakeOwner;             	// owner address, used to dereferenciate any stake id
+ * result[1] = uint40 stakeIndexUser;         	// stake position of 'stakeListIds'
+ * result[2] = uint40 stakeIndexContract;     	// stake position of HEX
+ * result[3] = bool stakeTransferred;         	// state if stake has been transferred
  * // Trading
- * result[3] = uint256 stakeIndexTrade;        // stake position if stake is for sale
- * result[4] = uint256 stakePrice;             // price for this stake when selling
- * result[5] = bool isForSale;                 // state if stake is for sale or not
+ * result[4] = bool isForSale;                 	// state if stake is for sale or not
+ * result[5] = uint256 stakeIndexTrade;        	// stake position if stake is for sale
+ * result[6] = uint256 stakePrice;             	// price for this stake when selling
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
@@ -211,9 +212,9 @@ function getStakeData(id, amount) {
 			stake.stakeIndexUser = result[1].toNumber();
 			stake.stakeIndexContract = result[2].toNumber();
 			stake.stakeTransferred = result[3];
-			stake.stakeIndexTrade = result[4].toNumber();
-			stake.stakePrice = result[5];
-			stake.isForSale = result[6];
+			stake.isForSale = result[4];
+			stake.stakeIndexTrade = result[5].toNumber();
+			stake.stakePrice = result[6];
 			stakeMap.set(id, stake);
 			
 			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);
