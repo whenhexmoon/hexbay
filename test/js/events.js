@@ -35,6 +35,9 @@ function initBayEvents() {
 		console.log("Bay event triggered");
 		if (!error) {
 			switch (event.event) {
+				case "RecoverySet" :
+					eventRecoverySet(event);
+					break;
 				case "StakeForSale" :
 					eventStakeForSale(event);
 					break;
@@ -91,6 +94,14 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventRecoverySet(event) {
+	console.log("RecoverySet event triggered");
+	let args = event.args;
+	let staker = args.staker;
+	let recovery = args.recovery;
+	callbackEventRecoverySet(staker, recovery);
 }
 
 function eventStakeStart(event) {

@@ -40,7 +40,7 @@ function init() {
 
 	
 	// Event listener
-	initTransferEvents();
+	initBayEvents();
 }
 
 function update() {		
@@ -59,6 +59,16 @@ function resetData() {
 	
 	// reset stake entries
 	$("#stakeTable > tbody").empty();
+}
+
+function callbackEventRecoverySet(staker, recovery) {
+	staker = staker.toLowerCase();
+	recovery = recovery.toLowerCase();
+	
+	// user has set a recovery address
+	if (staker === currentAccount.toLowerCase()) {
+		hideSpinner('#spinBtnSet');
+	}
 }
 
 function callbackEventStakeTransferred(stakeId, from, to) {
