@@ -7,12 +7,11 @@ class Stake {
 		this.unlockedDay = 0;
 		this.interest = 0;
 		this.isAutoStake = false;
-		this.stakeOwner = "0x0";
-		this.stakeIndexUser = 0;
-		this.stakeIndexContract = 0;
-		this.stakeTransferred = false;
-		this.stakeIndexTrade = 0;
-		this.stakePrice = 0;
+		this.owner = "0x0";
+		this.indexUser = 0;
+		this.indexContract = 0;
+		this.indexTrade = 0;
+		this.price = 0;
 		this.isForSale = false;
 	}
 	
@@ -24,11 +23,11 @@ class Stake {
 		", stakedDays: " + this.stakedDays +
 		", unlockedDay: " + this.unlockedDay +
 		", isAutoStake: " + this.isAutoStake +
-		", stakeOwner: " + this.stakeOwner +
-		", stakeIndexUser: " + this.stakeIndexUser +
-		", stakeIndexContract: " + this.stakeIndexContract +
-		", stakeIndexTrade: " + this.stakeIndexTrade +
-		", stakePrice: " + this.stakePrice +
+		", stakeOwner: " + this.owner +
+		", stakeIndexUser: " + this.indexUser +
+		", stakeIndexContract: " + this.indexContract +
+		", stakeIndexTrade: " + this.indexTrade +
+		", stakePrice: " + this.price +
 		", isForSale: " + this.isForSale;
 	}
 }

@@ -194,30 +194,28 @@ function getDailyData() {
 
 /* 
  * // Basic
- * result[0] = address stakeOwner;             	// owner address, used to dereferenciate any stake id
- * result[1] = uint40 stakeIndexUser;         	// stake position of 'stakeListIds'
- * result[2] = uint40 stakeIndexContract;     	// stake position of HEX
- * result[3] = bool stakeTransferred;         	// state if stake has been transferred
+ * result[0] = address owner;             	// owner address, used to dereferenciate any stake id
+ * result[1] = uint40 indexUser;         	// stake position of 'stakeListIds'
+ * result[2] = uint40 indexContract;     	// stake position of HEX
+ * result[3] = bool isForSale;              // state if stake is for sale or not
  * // Trading
- * result[4] = bool isForSale;                 	// state if stake is for sale or not
- * result[5] = uint256 stakeIndexTrade;        	// stake position if stake is for sale
- * result[6] = uint256 stakePrice;             	// price for this stake when selling
+ * result[4] = uint256 indexTrade;        	// stake position if stake is for sale
+ * result[5] = uint256 price;             	// price for this stake when selling
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
 		// this is one of the users stake		
 		if(!error && result[0].toLowerCase() === currentAccount.toLowerCase()) {
 			let stake = new Stake();
-			stake.stakeOwner = result[0];
-			stake.stakeIndexUser = result[1].toNumber();
-			stake.stakeIndexContract = result[2].toNumber();
-			stake.stakeTransferred = result[3];
-			stake.isForSale = result[4];
-			stake.stakeIndexTrade = result[5].toNumber();
-			stake.stakePrice = result[6];
+			stake.owner = result[0];
+			stake.indexUser = result[1].toNumber();
+			stake.indexContract = result[2].toNumber();
+			stake.isForSale = result[3];
+			stake.indexTrade = result[4].toNumber();
+			stake.price = result[5];
 			stakeMap.set(id, stake);
 			
-			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);
+			getHexStakeData(stake.indexContract, bayAddress, amount);
 			
 			// remove button spinner
 			hideSpinner('#spinBtnStake');
