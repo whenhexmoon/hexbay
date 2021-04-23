@@ -38,6 +38,9 @@ function initBayEvents() {
 				case "RecoverySet" :
 					eventRecoverySet(event);
 					break;
+				case "RecoveryModeChange" :
+					eventRecoveryModeChange(event);
+					break;
 				case "StakeForSale" :
 					eventStakeForSale(event);
 					break;
@@ -102,6 +105,15 @@ function eventRecoverySet(event) {
 	let staker = args.staker;
 	let recovery = args.recovery;
 	callbackEventRecoverySet(staker, recovery);
+}
+
+function eventRecoveryModeChange(event) {
+	console.log("RecoveryModeChange event triggered");
+	let args = event.args;
+	let recovery = args.recovery;
+	let staker = args.staker;
+	let modeActive = args.recoveryModeActive;
+	callbackEventRecoveryModeChange(recovery, staker, modeActive);
 }
 
 function eventStakeStart(event) {

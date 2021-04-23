@@ -71,6 +71,16 @@ function callbackEventRecoverySet(staker, recovery) {
 	}
 }
 
+function callbackEventRecoveryModeChange(recovery, staker, modeActive) {
+	recovery = recovery.toLowerCase();
+	staker = staker.toLowerCase();
+	
+	// recovery address has blocked or unblocked the staker
+	if (recovery === currentAccount.toLowerCase()) {
+		hideSpinner('#spinBtnBlock');
+	}
+}
+
 function callbackEventStakeTransferred(stakeId, from, to) {
 	from = from.toLowerCase();
 	to = to.toLowerCase();
