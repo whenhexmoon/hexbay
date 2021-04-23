@@ -260,7 +260,7 @@ function getStakeData(id, amount) {
 			stake.price = result[5];
 			stakeMap.set(id, stake);
 			
-			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);
+			getHexStakeData(stake.indexContract, bayAddress, amount);
 		} else {
 			console.log(error);
 		}
