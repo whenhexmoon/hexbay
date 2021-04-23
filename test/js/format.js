@@ -29,7 +29,7 @@ function formatPercentage(percent) {
 
 function formatOwner(stake) {
 	if (stake) {
-		var owner = stake.stakeOwner;
+		var owner = stake.owner;
 		
 		if (owner.toLowerCase() === currentAccount.toLowerCase()) {
 			return "You";
