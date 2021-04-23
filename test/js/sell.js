@@ -316,7 +316,7 @@ function getHexStakeData(index, staker, amount) {
 
 function changePriceInputData() {
 	if (selectedStake.isForSale) {
-		let price = selectedStake.stakePrice.div(10 ** 8);
+		let price = selectedStake.price.div(10 ** 8);
 		document.getElementById('inputHexPrice').value = price;
 	} else {
 		let price = selectedStake.stakedHearts.div(10 ** 8);
@@ -326,7 +326,7 @@ function changePriceInputData() {
 
 function changeTableRowPrice(stake) {
 	let selector = ':button[value="' + stake.stakeId + '"]';
-	let price = stake.stakePrice.div(10 ** 8);
+	let price = stake.price.div(10 ** 8);
 	let priceNumber = numeral(price.toNumber());
 	let priceFormat = formatHex(priceNumber);
 	
@@ -374,7 +374,7 @@ function addStakeToTable(stake) {
 	
 	// stake is for sale
 	if (stake.isForSale) {
-		var price = stake.stakePrice.div(10 ** 8);
+		var price = stake.price.div(10 ** 8);
 		var priceNumber = numeral(price.toNumber());
 		var priceFormat = formatHex(priceNumber);
 		
