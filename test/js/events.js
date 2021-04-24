@@ -101,7 +101,7 @@ function initRecoverySetEvents() {
 			console.log(logs);
 			
 			// iterate all staker addresses
-			console.log(logs[0]);
+			console.log(logs[0].args.staker);
 		} else {
 			console.log(error);
 		}
