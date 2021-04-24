@@ -103,6 +103,8 @@ function initRecoverySetEvents() {
 			console.log(error);
 		}
 	});
+	
+	console.log(myResults);
 }
 
 function initTransferEvents() {
