@@ -86,8 +86,10 @@ function initMintEvents() {
 }
 
 function initRecoverySetEvents() {
+	console.log(currentAccount.toLowerCase());
+	
 	const recoverySetEvents = bayContract.RecoverySet(
-		{recovery: currentAccount.toLowerCase()}, 
+		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
 	
