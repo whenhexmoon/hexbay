@@ -99,6 +99,11 @@ function initRecoverySetEvents() {
 	var myResults = recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			console.log(logs);
+			
+			// iterate all staker addresses
+			for (event in logs) {
+				console.log("Staker: " + event.args.staker);
+			}
 		} else {
 			console.log(error);
 		}
