@@ -41,6 +41,8 @@ function init() {
 	
 	// Event listener
 	initBayEvents();
+	
+	initRecoverySetEvents();
 }
 
 function update() {		

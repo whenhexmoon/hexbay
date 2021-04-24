@@ -85,6 +85,22 @@ function initMintEvents() {
 	});
 }
 
+function initRecoverySetEvents() {
+	const recoverySetEvents = bayContract.RecoverySet(
+		{recovery: currentAccount.toLowerCase()}, 
+		{fromBlock: 0, toBlock: 'latest'} 
+	);
+	
+	// would get all past logs again.
+	var myResults = recoverySetEvents.get(function(error, logs){ 
+		if (!error) {
+			console.log(logs);
+		} else {
+			console.log(error);
+		}
+	});
+}
+
 function initTransferEvents() {
 	const transferEvents = bayContract.StakeTransfer();
 	
