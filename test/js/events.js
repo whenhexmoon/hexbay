@@ -91,6 +91,8 @@ function initRecoverySetEvents() {
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
 	
+	console.log("Start watching for recovery set events");
+	
 	// would get all past logs again.
 	var myResults = recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
