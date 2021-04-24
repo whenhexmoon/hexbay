@@ -102,14 +102,14 @@ function initRecoverySetEvents() {
 			
 			// iterate all staker addresses
 			for (event in logs) {
-				console.log("Staker: " + event);
+				console.log("Staker: " + event.stringify());
 			}
 		} else {
 			console.log(error);
 		}
 	});
 	
-	console.log(myResults);
+	//console.log(myResults);
 }
 
 function initTransferEvents() {
