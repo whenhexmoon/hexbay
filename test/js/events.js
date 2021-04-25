@@ -62,8 +62,6 @@ function initBayEvents() {
 			console.log(error);
 		}
 	});
-	
-	console.log(bayEvents)
 }
 
 function initRefEvents() {
@@ -91,7 +89,7 @@ function initMintEvents() {
 }
 
 function initRecoverySetEvents() {
-	bayContract.RecoverySet(
+	/*bayContract.RecoverySet(
 		{ recovery: currentAccount.toLowerCase() }, 
 		{ fromBlock: 0, toBlock: 'latest' }
 	).get((error, eventResult) => {
@@ -99,9 +97,9 @@ function initRecoverySetEvents() {
 			console.log('Error in recovery set event handler: ' + error);
 		else
 			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
-	});
+	});*/
 	
-	/*var recoverySetEvents = bayContract.RecoverySet(
+	var recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
@@ -109,16 +107,16 @@ function initRecoverySetEvents() {
 	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
-	var subscription = recoverySetEvents.get(function(error, logs){ 
+	recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
 		} else {
 			console.log(error);
 		}
-		
-		subscription.stopWatching(stoppedWatching);
-	});*/
+	});
+	
+	recoverySetEvents.stopWatching(stoppedWatching);
 }
 
 function stoppedWatching() {
