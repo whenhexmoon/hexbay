@@ -93,12 +93,12 @@ function initMintEvents() {
 function initRecoverySetEvents() {
 	bayContract.RecoverySet(
 		{ recovery: currentAccount.toLowerCase() }, 
-		{ fromBlock: 0, toBlock: 'latest' })
-		.get((error, eventResult) => {
-	  if (error)
-		console.log('Error in recovery set event handler: ' + error);
-	  else
-		console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
+		{ fromBlock: 0, toBlock: 'latest' }
+	).get((error, eventResult) => {
+		if (error)
+			console.log('Error in recovery set event handler: ' + error);
+		else
+			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
 	});
 	
 	/*var recoverySetEvents = bayContract.RecoverySet(
