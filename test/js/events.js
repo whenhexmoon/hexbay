@@ -93,7 +93,7 @@ function initRecoverySetEvents() {
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
 	
-	console.log("Start watching for recovery set events");
+	console.log("Start watching for past recovery set events");
 	
 	// would get all past logs again.
 	var myResults = recoverySetEvents.get(function(error, logs){ 
@@ -101,7 +101,7 @@ function initRecoverySetEvents() {
 			console.log(logs);
 			
 			// iterate all staker addresses
-			console.log(logs[0].args.staker);
+			logs.forEach(event => console.log(event.args.staker));
 		} else {
 			console.log(error);
 		}
