@@ -282,9 +282,8 @@ function getHexStakeData(index, staker, amount) {
 function addStakeToTable(stake) {
 	var start = stake.lockedDay.add(1);
 	var end = stake.stakedDays.add(start);
-	var progress = (currentDay.add(2).sub(start)).div(end);
-	var progNumber = numeral(progress.toNumber())
-	var progFormat = formatPercentage(progNumber);
+	
+	var ownerFormat = formatOwner(stake);
 	
 	var principal = stake.stakedHearts.div(10 ** 8);
 	var principalNumber = numeral(principal.toNumber());
@@ -309,7 +308,7 @@ function addStakeToTable(stake) {
 		'<tr>' +
 		'<td class="align-middle">' + start + '</td>' +
 		'<td class="align-middle">' + end + '</td>' +
-		'<td class="align-middle">' + progFormat + '</td>' +
+		'<td class="align-middle">' + ownerFormat + '</td>' +
 		'<td class="align-middle">' + principalFormat + ' HEX' + '</td>' +
 		'<td class="align-middle">' + tsharesFormat + '</td>' +
 		'<td class="align-middle">' + interestFormat + ' HEX' + '</td>' +
