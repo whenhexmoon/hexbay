@@ -93,15 +93,22 @@ function callbackEventStakeRecover(stakeId, from, to, recovery) {
 	from = from.toLowerCase();
 	to = to.toLowerCase();
 	
-	let key = stakeId.toNumber().valueOf();
-	let stake = stakeMap.get(key);
-	
-	console.log(stake);
-	
 	// user is recovery address of given stake
 	if (recovery === currentAccount.toLowerCase()) {
 		// remove button spinner
 		hideSpinner('#spinBtnRecover');
+		
+		// change stake owner
+		let key = stakeId.toNumber().valueOf();
+		let stake = stakeMap.get(key);
+		stake.owner = to;
+		
+		// reset highlighted button
+		let selector = ':button[value="' + selectedStake.stakeId + '"]';
+		resetHighligthButton(selector);
+		
+		// change owner in table
+		changeTableRowOwner(stake);
 	}
 }
 
@@ -347,4 +354,15 @@ function changeTableSize(amount) {
 	} else {
 		$('#stakeTable').removeClass("table-sm");
 	}
+}
+
+function changeTableRowOwner(stake) {
+	let selector = ':button[value="' + stake.stakeId + '"]';
+	let owner = stake.owner;
+	let ownerFormat = formatOwner(stake);
+	
+	// get table row and cells
+	let rowIndex = $(selector).closest('tr')[0].rowIndex;
+	let cellOwner = $('#stakeTable')[0].rows[rowIndex].cells[2];
+	cellOwner.innerHTML = ownerFormat;
 }
