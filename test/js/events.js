@@ -105,12 +105,13 @@ function initRecoverySetEvents() {
 			console.log(error);
 		}
 		
-		console.log(subscription);
+		subscription.stopWatching(stoppedWatching(subscription));
 	});
 }
 
-function stoppedWatching() {
+function stoppedWatching(subscription) {
 	console.log("Stopped watching for past recovery set events");
+	console.log(subscription);
 }
 
 function initTransferEvents() {
