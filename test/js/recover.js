@@ -73,6 +73,13 @@ function callbackEventRecoverySet(staker, recovery) {
 	}
 }
 
+function callbackPastRecoverySetEvents(staker) {
+	staker = staker.toLowerCase();
+	
+	// get all stakes
+	getStakeList(staker);
+}
+
 function callbackEventRecoveryModeChange(recovery, staker, modeActive) {
 	recovery = recovery.toLowerCase();
 	staker = staker.toLowerCase();
