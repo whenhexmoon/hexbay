@@ -107,7 +107,7 @@ function initRecoverySetEvents() {
 	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
-	recoverySetEvents.get(function(error, logs){ 
+	var sub = recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
@@ -116,7 +116,7 @@ function initRecoverySetEvents() {
 		}
 	});
 	
-	recoverySetEvents.stopWatching(stoppedWatching);
+	sub.stopWatching(stoppedWatching);
 }
 
 function stoppedWatching() {
