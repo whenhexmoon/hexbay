@@ -99,7 +99,7 @@ function initRecoverySetEvents() {
 	console.log("Start watching for past recovery set events");
 	
 	// would get all past logs again.
-	var myResults = recoverySetEvents.get(function(error, logs){ 
+	recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			//console.log(logs);
 			
