@@ -89,7 +89,7 @@ function initMintEvents() {
 }
 
 function initRecoverySetEvents() {	
-	const recoverySetEvents = bayContract.RecoverySet(
+	var recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
@@ -107,10 +107,13 @@ function initRecoverySetEvents() {
 			console.log(error);
 		}
 		
-		//recoverySetEvents.stopWatching();
+		console.log("Stop getting past recovery set events");
+		recoverySetEvents.stopWatching();
+		
+		console.log(recoverySetEvents);
 	});
 	
-	//console.log(myResults);
+	//console.log(recoverySetEvents);
 }
 
 function initTransferEvents() {
