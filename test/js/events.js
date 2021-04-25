@@ -106,12 +106,12 @@ function initRecoverySetEvents() {
 		}
 		
 		console.log("Stop getting past recovery set events");
-		recoverySetEvents.stopWatching();
-		
-		console.log(recoverySetEvents);
+		recoverySetEvents.stopWatching(stoppedWatching);
 	});
-	
-	console.log(recoverySetEvents);
+}
+
+function stoppedWatching() {
+	console.log("Stopped watching for past recovery set events");
 }
 
 function initTransferEvents() {
