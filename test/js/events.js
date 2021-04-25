@@ -107,7 +107,7 @@ function initRecoverySetEvents() {
 			console.log(error);
 		}
 		
-		recoverySetEvents.stopWatching();
+		//recoverySetEvents.stopWatching();
 	});
 	
 	//console.log(myResults);
