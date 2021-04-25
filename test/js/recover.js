@@ -89,6 +89,22 @@ function callbackEventRecoveryModeChange(recovery, staker, modeActive) {
 	}
 }
 
+function callbackEventStakeRecover(stakeId, from, to, recovery) {
+	from = from.toLowerCase();
+	to = to.toLowerCase();
+	
+	let key = stakeId.toNumber().valueOf();
+	let stake = stakeMap.get(key);
+	
+	console.log(stake);
+	
+	// user is recovery address of given stake
+	if (recovery === currentAccount.toLowerCase()) {
+		// remove button spinner
+		hideSpinner('#spinBtnRecover');
+	}
+}
+
 function callbackEventStakeTransferred(stakeId, from, to) {
 	from = from.toLowerCase();
 	to = to.toLowerCase();
