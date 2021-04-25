@@ -61,7 +61,9 @@ function initBayEvents() {
 		} else {
 			console.log(error);
 		}
-	});
+	}
+	
+	console.log(bayEvents);
 }
 
 function initRefEvents() {
