@@ -191,7 +191,7 @@ function getDailyData() {
 					
 					// last day fetched
 					if (count == days) {
-						getStakeList(currentAccount);
+						//getStakeList(currentAccount);
 					}
 				});
 			}			
