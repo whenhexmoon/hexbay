@@ -61,10 +61,10 @@ function unlockActionFrame() {
 	});
 }
 
-function stakeRecover(stakeId, owner, receiver) {
-	bayContract.stakeRecover(stakeId, owner, receiver, function(error, result) {
+function stakeRecover(stakeId, receiver) {
+	bayContract.stakeRecover(stakeId, receiver, function(error, result) {
 		if (!error) {
-			console.log("Recovering stake " + stakeId + " from " + owner + " to " + receiver);
+			console.log("Recovering stake " + stakeId + " to " + receiver);
 			// show button spinner
 			showSpinner('#spinBtnRecover');
 		} else {

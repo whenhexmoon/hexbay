@@ -34,8 +34,7 @@ function init() {
 	document.getElementById('btnRecover').addEventListener("click", function() {
 		let receiver = document.getElementById('inputAddress').value;
 		let stakeId = selectedStake.stakeId;
-		let owner = selectedStake.stakeOwner;
-		stakeRecover(stakeId, owner, receiver);
+		stakeRecover(stakeId, receiver);
 	});
 
 	
