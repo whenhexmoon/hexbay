@@ -98,7 +98,7 @@ function initRecoverySetEvents() {
 	// would get all past logs again.
 	var myResults = recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
-			console.log(logs);
+			//console.log(logs);
 			
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
