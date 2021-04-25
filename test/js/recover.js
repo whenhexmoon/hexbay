@@ -147,7 +147,7 @@ function getStakeList(address) {
 	bayContract.stakeList(address, function(error, result) {
 		if(!error) {
 			let stakes = result;
-			console.log("List of stakes: " + stakes);
+			console.log("List of stakes: " + stakes + " for address: " + address);
 			
 			// smaller the table
 			changeTableSize(stakes.length);
