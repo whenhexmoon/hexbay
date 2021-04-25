@@ -213,8 +213,7 @@ function getDailyData() {
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
-		// this is one of the users stake		
-		if(!error && result[0].toLowerCase() === currentAccount.toLowerCase()) {
+		if(!error) {
 			let stake = new Stake();
 			stake.owner = result[0];
 			stake.indexUser = result[1].toNumber();
