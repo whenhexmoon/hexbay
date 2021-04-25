@@ -90,8 +90,15 @@ function initMintEvents() {
 	});
 }
 
-function initRecoverySetEvents() {	
-	var recoverySetEvents = bayContract.RecoverySet(
+function initRecoverySetEvents() {
+	bayContract.RecoverySet({}, { fromBlock: 0, toBlock: 'latest' }).get((error, eventResult) => {
+	  if (error)
+		console.log('Error in recovery set event handler: ' + error);
+	  else
+		console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
+	});
+	
+	/*var recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
@@ -108,7 +115,7 @@ function initRecoverySetEvents() {
 		}
 		
 		subscription.stopWatching(stoppedWatching);
-	});
+	});*/
 }
 
 function stoppedWatching() {
