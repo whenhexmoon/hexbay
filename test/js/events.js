@@ -88,15 +88,13 @@ function initMintEvents() {
 	});
 }
 
-function initRecoverySetEvents() {
-	console.log(currentAccount.toLowerCase());
-	
+function initRecoverySetEvents() {	
 	const recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
 	
-	console.log("Start watching for past recovery set events");
+	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
 	recoverySetEvents.get(function(error, logs){ 
@@ -108,6 +106,8 @@ function initRecoverySetEvents() {
 		} else {
 			console.log(error);
 		}
+		
+		recoverySetEvents.stopWatching();
 	});
 	
 	//console.log(myResults);
