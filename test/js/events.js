@@ -105,8 +105,7 @@ function initRecoverySetEvents() {
 			console.log(error);
 		}
 		
-		console.log("Stop getting past recovery set events");
-		recoverySetEvents.stopWatching(stoppedWatching);
+		recoverySetEvents.unsubscribe();
 	});
 }
 
