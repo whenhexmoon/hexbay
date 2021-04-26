@@ -101,7 +101,7 @@ function addButtonClickListener(selector) {
 		selectedStake = stakeMap.get(stakeId);
 		
 		// prompt transaction
-		stakeEnd(selectedStake.stakeIndexUser, selectedStake.stakeId);
+		stakeEnd(selectedStake.indexUser, selectedStake.stakeId);
 	});
 }
 
