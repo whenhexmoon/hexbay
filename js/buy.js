@@ -74,8 +74,8 @@ function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, sta
 	stake.lockedDay = lockedDay;
 	stake.stakedDays = stakedDays;
 	stake.unlockedDay = unlockedDay;
-	stake.stakeOwner = seller;
-	stake.stakePrice = priceHearts;
+	stake.owner = seller;
+	stake.price = priceHearts;
 	stake.isForSale = true;	
 	stakeMap.set(stakeId.toNumber(), stake);
 	
@@ -88,7 +88,7 @@ function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, sta
 function callbackEventBuy(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, buyer, priceHearts) {
 	// add missing attributes to stake
 	let stake = stakeMap.get(stakeId.toNumber());
-	stake.stakePrice = new BN(0);
+	stake.price = new BN(0);
 	stake.isForSale = false;
 	
 	// current user has bought this stake
@@ -103,7 +103,7 @@ function callbackEventBuy(stakeId, stakedHearts, stakeShares, lockedDay, stakedD
 function callbackEventRevoke(stakeId, owner) {
 	// add missing attributes to stake
 	let stake = stakeMap.get(stakeId.toNumber());
-	stake.stakePrice = new BN(0);
+	stake.price = new BN(0);
 	stake.isForSale = false;
 	
 	// remove stake from table
@@ -113,7 +113,7 @@ function callbackEventRevoke(stakeId, owner) {
 function callbackEventPriceChanged(stakeId, newPrice, owner) {
 	// add missing attributes to stake
 	let stake = stakeMap.get(stakeId.toNumber());
-	stake.stakePrice = newPrice;
+	stake.price = newPrice;
 	
 	changeTableRowPrice(stake);
 }
@@ -201,28 +201,27 @@ function getStakesForSaleList() {
 
 /* 
  * // Basic
- * result[0] = address stakeOwner;             // owner address, used to dereferenciate any stake id
- * result[1] = uint256 stakeIndexUser;         // stake position of 'stakeListIds'
- * result[2] = uint256 stakeIndexContract;     // stake position of HEX
+ * result[0] = address owner;             	// owner address, used to dereferenciate any stake id
+ * result[1] = uint40 indexUser;         	// stake position of 'stakeListIds'
+ * result[2] = uint40 indexContract;     	// stake position of HEX
+ * result[3] = bool isForSale;              // state if stake is for sale or not
  * // Trading
- * result[3] = uint256 stakeIndexTrade;        // stake position if stake is for sale
- * result[4] = uint256 stakePrice;             // price for this stake when selling
- * result[5] = bool isForSale;                 // state if stake is for sale or not
+ * result[4] = uint256 indexTrade;        	// stake position if stake is for sale
+ * result[5] = uint256 price;             	// price for this stake when selling
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
 		if(!error) {
 			let stake = new Stake();
-			stake.stakeOwner = result[0];
-			stake.stakeIndexUser = result[1].toNumber();
-			stake.stakeIndexContract = result[2].toNumber();
-			stake.stakeTransferred = result[3];
-			stake.stakeIndexTrade = result[4].toNumber();
-			stake.stakePrice = result[5];
-			stake.isForSale = result[6];
+			stake.owner = result[0];
+			stake.indexUser = result[1].toNumber();
+			stake.indexContract = result[2].toNumber();
+			stake.isForSale = result[3];
+			stake.indexTrade = result[4].toNumber();
+			stake.price = result[5];
 			stakeMap.set(id.toNumber(), stake);
 			
-			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);
+			getHexStakeData(stake.indexContract, bayAddress, amount);
 		} else {
 			console.log(error);
 		}
@@ -317,7 +316,7 @@ function addStakeToTable(stake) {
 	var currentValNumber = numeral(principal.add(interest).toNumber());
 	var currentValFormat = formatHex(currentValNumber);
 	
-	var price = stake.stakePrice.div(BASE_HEARTS);
+	var price = stake.price.div(BASE_HEARTS);
 	var priceNumber = numeral(price.toNumber());
 	var priceFormat = formatHex(priceNumber);
 	

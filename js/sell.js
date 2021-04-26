@@ -240,28 +240,27 @@ function getDailyData() {
 
 /* 
  * // Basic
- * result[0] = address stakeOwner;             // owner address, used to dereferenciate any stake id
- * result[1] = uint256 stakeIndexUser;         // stake position of 'stakeListIds'
- * result[2] = uint256 stakeIndexContract;     // stake position of HEX
+ * result[0] = address owner;             	// owner address, used to dereferenciate any stake id
+ * result[1] = uint40 indexUser;         	// stake position of 'stakeListIds'
+ * result[2] = uint40 indexContract;     	// stake position of HEX
+ * result[3] = bool isForSale;              // state if stake is for sale or not
  * // Trading
- * result[3] = uint256 stakeIndexTrade;        // stake position if stake is for sale
- * result[4] = uint256 stakePrice;             // price for this stake when selling
- * result[5] = bool isForSale;                 // state if stake is for sale or not
+ * result[4] = uint256 indexTrade;        	// stake position if stake is for sale
+ * result[5] = uint256 price;             	// price for this stake when selling
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
 		if(!error) {
 			let stake = new Stake();
-			stake.stakeOwner = result[0];
-			stake.stakeIndexUser = result[1].toNumber();
-			stake.stakeIndexContract = result[2].toNumber();
-			stake.stakeTransferred = result[3];
-			stake.stakeIndexTrade = result[4].toNumber();
-			stake.stakePrice = result[5];
-			stake.isForSale = result[6];
+			stake.owner = result[0];
+			stake.indexUser = result[1].toNumber();
+			stake.indexContract = result[2].toNumber();
+			stake.isForSale = result[3];
+			stake.indexTrade = result[4].toNumber();
+			stake.price = result[5];
 			stakeMap.set(id, stake);
 			
-			getHexStakeData(stake.stakeIndexContract, bayAddress, amount);
+			getHexStakeData(stake.indexContract, bayAddress, amount);
 		} else {
 			console.log(error);
 		}
@@ -317,7 +316,7 @@ function getHexStakeData(index, staker, amount) {
 
 function changePriceInputData() {
 	if (selectedStake.isForSale) {
-		let price = selectedStake.stakePrice.div(10 ** 8);
+		let price = selectedStake.price.div(10 ** 8);
 		document.getElementById('inputHexPrice').value = price;
 	} else {
 		let price = selectedStake.stakedHearts.div(10 ** 8);
@@ -327,7 +326,7 @@ function changePriceInputData() {
 
 function changeTableRowPrice(stake) {
 	let selector = ':button[value="' + stake.stakeId + '"]';
-	let price = stake.stakePrice.div(10 ** 8);
+	let price = stake.price.div(10 ** 8);
 	let priceNumber = numeral(price.toNumber());
 	let priceFormat = formatHex(priceNumber);
 	
@@ -375,7 +374,7 @@ function addStakeToTable(stake) {
 	
 	// stake is for sale
 	if (stake.isForSale) {
-		var price = stake.stakePrice.div(10 ** 8);
+		var price = stake.price.div(10 ** 8);
 		var priceNumber = numeral(price.toNumber());
 		var priceFormat = formatHex(priceNumber);
 		

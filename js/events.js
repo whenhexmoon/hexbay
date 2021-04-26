@@ -35,6 +35,15 @@ function initBayEvents() {
 		console.log("Bay event triggered");
 		if (!error) {
 			switch (event.event) {
+				case "RecoverySet" :
+					eventRecoverySet(event);
+					break;
+				case "RecoveryModeChange" :
+					eventRecoveryModeChange(event);
+					break;
+				case "StakeRecover" :
+					eventStakeRecover(event);
+					break;
 				case "StakeForSale" :
 					eventStakeForSale(event);
 					break;
@@ -79,6 +88,41 @@ function initMintEvents() {
 	});
 }
 
+function initRecoverySetEvents() {
+	/*bayContract.RecoverySet(
+		{ recovery: currentAccount.toLowerCase() }, 
+		{ fromBlock: 0, toBlock: 'latest' }
+	).get((error, eventResult) => {
+		if (error)
+			console.log('Error in recovery set event handler: ' + error);
+		else
+			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
+	});*/
+	
+	var recoverySetEvents = bayContract.RecoverySet(
+		{recovery: currentAccount.toLowerCase()},
+		{fromBlock: 0, toBlock: 'latest'} 
+	);
+	
+	console.log("Get past recovery set events");
+	
+	// would get all past logs again.
+	var sub = recoverySetEvents.get(function(error, logs){ 
+		if (!error) {
+			// iterate all staker addresses
+			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
+		} else {
+			console.log(error);
+		}
+	});
+	
+	sub.stopWatching(stoppedWatching);
+}
+
+function stoppedWatching() {
+	console.log("Stopped watching for past recovery set events");
+}
+
 function initTransferEvents() {
 	const transferEvents = bayContract.StakeTransfer();
 	
@@ -91,6 +135,33 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventRecoverySet(event) {
+	console.log("RecoverySet event triggered");
+	let args = event.args;
+	let staker = args.staker;
+	let recovery = args.recovery;
+	callbackEventRecoverySet(staker, recovery);
+}
+
+function eventRecoveryModeChange(event) {
+	console.log("RecoveryModeChange event triggered");
+	let args = event.args;
+	let recovery = args.recovery;
+	let staker = args.staker;
+	let modeActive = args.recoveryModeActive;
+	callbackEventRecoveryModeChange(recovery, staker, modeActive);
+}
+
+function eventStakeRecover(event) {
+	console.log("StakeRecover event triggered");
+	let args = event.args;
+	let stakeId = args.stakeId;
+	let from = args.from;
+	let to = args.to;
+	let recovery = args.recovery;
+	callbackEventStakeRecover(stakeId, from, to, recovery);
 }
 
 function eventStakeStart(event) {

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>HexBay - Tradable Stakes</title>
+  <title>HexBay - Recover</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -12,6 +12,7 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/numeral.js/2.0.6/numeral.min.js"></script>
   
   <style>
 	html {
@@ -38,39 +39,25 @@
 		color: #ff14af;
 		font-size: 1.25em;
 	}
-  
-	#button-start-wrapper {
-		margin-top: 30px;
-		margin-bottom: 130px;
+
+	.form-control::-webkit-input-placeholder {
+		color: gray;
 	}
 	
-	#button-start {
-		padding-left: 50px;
-		padding-right: 50px;
-		
-		padding-top: 12px;
-		padding-bottom: 12px;
-		
-		font-size: 1.5em;
+	.user-stat {
+		font-size: 1.25rem;
 	}
 	
-	#content {
-		margin-top: 50px;
+	.form-control-lg {
+		margin-top: 8px;
+		margin-bottom: 8px;
 	}
 	
-	.col-wrapper {
-		margin-top: 20px;
-	}
-	
-	.content-wrapper {
-		min-height: 500px;
-		padding-top: 15px;
-		padding-bottom: 15px;
-		box-shadow:3px 3px 10px #222222;
-	}
-	
-	.btn-lg.round {
-		border-radius: 32px;
+	.spinner-size {
+		width: 1.5rem; 
+		height: 1.5rem; 
+		border-width: 3px;
+		display: none;
 	}
 	
 	.footer {
@@ -92,7 +79,7 @@
 		<!-- Grey with black text -->
 		<nav class="navbar navbar-expand-md navbar-dark">
 			<!-- Brand -->
-			<a class="navbar-brand" style="color: #ff14af;" href="#">HexBay</a>
+			<a class="navbar-brand" style="color: #ff14af;" href="./index.html">HexBay</a>
 
 			<!-- Toggler/collapsibe Button -->
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
@@ -111,8 +98,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="./refer.html">Refer</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./recover.html">Recover</a>
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Recover</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./buy.html">Buy</a>
@@ -126,61 +113,55 @@
 	</div>
 </div>
 
-<!-- Main Content; Left and Right Box -->
-<div class="container">
-	<p class="display-4 text-center" style="margin-top:50px; margin-bottom: 50px;">Tradable HEX stakes with HexBay</p>
-	
-	<div id="content" class="row">
-	  <!-- Argument 1 -->
-	  <div class="col-lg-6 col-wrapper">
-	    <div class="container-fluid content-wrapper px-4">
-		  <h3 class="mb-5 text-center">What's in it for you</h3>
-		  
-		  <h4 class="mt-4">Referral Program</h4>
-		  <span>HexBay brings the referral program back! Earn 4.7% HEX on your referrals immediately when they start a stake.</span>
-		  
-		  <h4 class="mt-4">Sell Stakes</h4>
-		  <span>Get the opportunity to sell your stakes for HEX at any time to become liquid.</span>
-		  
-		  <h4 class="mt-4">Higher Interest</h4>
-		  <span>Stake longer than you would actually do. This allows you to earn up to 35% more interest because you hold more T-Shares.</span>
-		</div>
-	  </div>
-	  
-	  <!-- Argument 2 -->
-	  <div class="col-lg-6 col-wrapper">
-	    <div class="container-fluid content-wrapper px-4">
-		  <h3 class="mb-5 text-center">Additional Features</h3>
-		  
-		  <h4 class="mt-4">Buy Stakes</h4>
-		  <span>Buy cheap stakes with more T-Shares and profit from other people's impatience.</span>
-		  
-		  <h4 class="mt-4">Missed BigPayDay?</h4>
-		  <span>We introduce SmallPayDay. Collected fees get distributed to the whole staker class as EmergencyEnd penalties.</span>
-		  
-		  <h4 class="mt-4">Calculator <span style="font-size: 1rem;">(Coming soon)</span></h4>
-		  <span>Use our comparison calculator to achieve the highest gains possible.</span>
-		</div>
-	  </div>
+<!-- MetaMask Connection -->
+<div id="connectBox" class="container p-2 text-center" style="margin-top: 50px; margin-bottom: 50px; background-color: #ff5252; display: none;">
+	<span class="font-weight-bolder align-middle" style="font-size: 1.25rem;">Please connect to MetaMask...</span>
+	<button type="button" id="btnConnect" class="btn btn-secondary text-uppercase mx-2">Connect</button>
+</div>
+
+<!-- Recovery Functions-->
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
+	<div class="container mx-auto px-0" style="max-width: 600px;">
+		<h2>Recovery Actions</h2>
+		
+		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputAddress" placeholder="ADDRESS" name="address">
+		<button type="button" id="btnSet" class="btn btn-secondary btn-lg text-uppercase">
+			<span id="spinBtnSet" class="spinner-border spinner-border-sm spinner-size"></span>
+			Set Recovery
+		</button>
+		<button type="button" id="btnToggleBlock" class="btn btn-secondary btn-lg text-uppercase">
+			<span id="spinBtnBlock" class="spinner-border spinner-border-sm spinner-size"></span>
+			Un/Block
+		</button>
+		<button type="button" id="btnRecover" class="btn btn-primary btn-lg text-uppercase">
+			<span id="spinBtnRecover" class="spinner-border spinner-border-sm spinner-size"></span>
+			Recover
+		</button>
 	</div>
 </div>
 
-<!-- Note: test in Ropsten only -->
-<div class="container">
-	<p class="text-center" style="margin-top: 40px; font-size: 1.25rem;">HexBay is in test phase. You can test it right now in the Ropsten test netowrk.</p>
-</div>
-
-<!-- Start Button -->
-<div id="button-start-wrapper" class="container">
-  <div class="row">
-    <div class="col text-center">
-		<a id="button-start" class="btn btn-primary btn-lg round" href="./mint.html" role="button">
-			<span class="font-weight-bolder">Start Now</span>
-			<i class="fas fa-arrow-right"></i>
-		</a>
-	  </button>
-    </div>
-  </div>
+<!-- Recoverable Stakes -->
+<div class="container" style="margin-top: 20px; margin-bottom: 50px;">
+	<h2>Recoverable Stakes</h2>
+	
+	<div class="table-responsive">
+		<table id="stakeTable" class="table table-dark table-hover text-center">
+		<thead>
+		  <tr>
+			<th>Start</th>
+			<th>End</th>
+			<th>Owner</th>
+			<th>Principle</th>
+			<th>T-Shares</th>
+			<th>Interest</th>
+			<th>Current Value</th>
+			<th></th>
+		  </tr>
+		</thead>
+		<tbody>
+		</tbody>
+	  </table>
+	</div>
 </div>
 
 <!-- Footer -->
@@ -202,12 +183,15 @@
 		</div>
 	</div>
 </footer>
-	
+
 <!-- Dapp javascript logic -->
 <script type="text/javascript" src="./js/referral.js"></script>
+<script type="text/javascript" src="./js/format.js"></script>
 <script type="text/javascript" src="./js/shared.js"></script>
+<script type="text/javascript" src="./js/events.js"></script>
 <script type="text/javascript" src="./js/hexbay.js"></script>
-<script type="text/javascript" src="./js/index.js"></script>
+<script type="text/javascript" src="./js/contractFunctions.js"></script>
+<script type="text/javascript" src="./js/recover.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,7 @@
 var BN = web3.BigNumber;
 
 const stakeMap = new Map();	// key: stakeId
+let selectedStake = null;
 let currentDay = new BN(0);
 let dailyData = new Array(0);	// dayPayoutTotal, dayStakeSharesTotal, dayUnclaimedSatoshisTotal
 
@@ -17,31 +18,34 @@ window.addEventListener('load', (event) => {
 });
 
 function init() {	
-	// Stake button click event listener
-	document.getElementById('btnStake').addEventListener("click", function() {
-		var hexInput = document.getElementById('inputHexAmount').value;
-		var hearts = hexInput * (10 ** 8);	// HEX to Hearts; decimals 8
-		var days = document.getElementById('inputDayLength').value;
-		console.log("Staking Hearts: " + hearts + " for days: " + days + " with ref: " + ref);
-		stakeStart(hearts, days, ref);
+	// Set Recovery button click event listener
+	document.getElementById('btnSet').addEventListener("click", function() {
+		let recovery = document.getElementById('inputAddress').value;
+		setRecovery(recovery);
 	});
 	
-	// Approve button click event listener
-	document.getElementById('btnApprove').addEventListener("click", function() {
-		var maxValue = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
-		var amount = maxValue;
-		console.log("Approving HEX: " + amount);
-		approve(bayAddress, amount);
+	// Toggle Recovery Mode  button click event listener
+	document.getElementById('btnToggleBlock').addEventListener("click", function() {
+		let user = document.getElementById('inputAddress').value;
+		toggleRecoveryMode(user);
 	});
+	
+	// Recovery Stake button click event listener
+	document.getElementById('btnRecover').addEventListener("click", function() {
+		let receiver = document.getElementById('inputAddress').value;
+		let stakeId = selectedStake.stakeId;
+		stakeRecover(stakeId, receiver);
+	});
+
 	
 	// Event listener
-	initHexEvents();
+	initRecoverySetEvents();
+	initBayEvents();
 }
 
 function update() {		
 	// HEX
 	getDailyData();
-	//getHexStakes();
 	
 	// Bay
 	getStakeCount(currentAccount);
@@ -50,9 +54,6 @@ function update() {
 function resetData() {
 	toggleConnectBox();
 	
-	// reset global user data
-	showUserstats([0, 0, 0, 0]);
-	
 	// reset table size
 	$('#stakeTable').removeClass("table-sm");
 	
@@ -60,48 +61,95 @@ function resetData() {
 	$("#stakeTable > tbody").empty();
 }
 
-// Event listener callbacks
-function callbackEventStakeStart(stakerAddr, stakeId) {
-	console.log("Staker: " + stakerAddr);
+function callbackEventRecoverySet(staker, recovery) {
+	staker = staker.toLowerCase();
+	recovery = recovery.toLowerCase();
 	
-	// bay contract has started a stake
-	if (stakerAddr.toLowerCase() === bayAddress.toLowerCase()) {
-		getStakeData(stakeId.toNumber(), 1);
+	// user has set a recovery address
+	if (staker === currentAccount.toLowerCase()) {
+		hideSpinner('#spinBtnSet');
 	}
 }
 
-function callbackEventStakeEnd(stakerAddr, stakeId) {
-	// bay contract has ended a stake
-	if (stakerAddr.toLowerCase() === bayAddress.toLowerCase()) {
+function callbackPastRecoverySetEvents(staker) {
+	staker = staker.toLowerCase();
+	
+	// get all stakes
+	getStakeList(staker);
+}
+
+function callbackEventRecoveryModeChange(recovery, staker, modeActive) {
+	recovery = recovery.toLowerCase();
+	staker = staker.toLowerCase();
+	
+	// recovery address has blocked or unblocked the staker
+	if (recovery === currentAccount.toLowerCase()) {
+		hideSpinner('#spinBtnBlock');
+	}
+}
+
+function callbackEventStakeRecover(stakeId, from, to, recovery) {
+	from = from.toLowerCase();
+	to = to.toLowerCase();
+	
+	// user is recovery address of given stake
+	if (recovery === currentAccount.toLowerCase()) {
+		// remove button spinner
+		hideSpinner('#spinBtnRecover');
+		
+		// change stake owner
 		let key = stakeId.toNumber().valueOf();
 		let stake = stakeMap.get(key);
-		console.log("Stake: " + stake);
+		stake.owner = to;
+		
+		// reset highlighted button
+		let selector = ':button[value="' + selectedStake.stakeId + '"]';
+		resetHighligthButton(selector);
+		
+		// change owner in table
+		changeTableRowOwner(stake);
+	}
+}
+
+function callbackEventStakeTransferred(stakeId, from, to) {
+	from = from.toLowerCase();
+	to = to.toLowerCase();
+	
+	// user has transferred a stake
+	if (from === currentAccount.toLowerCase()) {
+		// remove stake from table
+		let key = stakeId.toNumber().valueOf();
+		let stake = stakeMap.get(key);
 		
 		if (stake) {
 			removeStakeFromTable(stake);
 			stakeMap.delete(key);
-			calcUserStats();
 		}
-	}
-}
-
-function callbackEventApprove(owner, spender, value) {
-	if (spender.toLowerCase() === bayAddress.toLowerCase()) {
-		if (owner.toLowerCase() === currentAccount.toLowerCase()) {
-			// disable approval spinner
-			hideSpinner('#spinBtnApprove');
-		}
+		
+		// remove button spinner
+		hideSpinner('#spinBtnTransfer');
+		
+	// user has got transferred a stake
+	} else if (to === currentAccount.toLowerCase()) {
+		// add stake to table
+		getStakeData(stakeId, 1);
 	}
 }
 
 function addButtonClickListener(selector) {
 	$(selector).click(function() {
+		// reset highlighted button
+		if (selectedStake) {
+			let selector = ':button[value="' + selectedStake.stakeId + '"]';
+			resetHighligthButton(selector);
+		}
+		
 		let stakeId = parseInt(this.value);
 		console.log("Button clicked: " + stakeId);
 		selectedStake = stakeMap.get(stakeId);
 		
-		// prompt transaction
-		stakeEnd(selectedStake.stakeIndexUser, selectedStake.stakeId);
+		// highlight selected button
+		highligthButton($(this));
 	});
 }
 
@@ -116,29 +164,11 @@ function getStakeCount(address) {
 	});
 }
 
-function getHexStakes() {
-	hexContract.stakeCount(currentAccount, function(error, result) {
-		if(!error) {
-			var amount = result;
-			console.log("Amount of HEX stakes: " + result);
-			
-			// smaller the table
-			changeTableSize(amount.toNumber());
-			
-			for (var i = 0; i < amount; i++) {
-				getHexStakeData(i, currentAccount, amount);
-			}
-		} else {
-			console.log(error);
-		}
-	});
-}
-
 function getStakeList(address) {
 	bayContract.stakeList(address, function(error, result) {
 		if(!error) {
 			let stakes = result;
-			console.log("List of stakes: " + stakes);
+			console.log("List of stakes: " + stakes + " for address: " + address);
 			
 			// smaller the table
 			changeTableSize(stakes.length);
@@ -182,7 +212,7 @@ function getDailyData() {
 					
 					// last day fetched
 					if (count == days) {
-						getStakeList(currentAccount);
+						//getStakeList(currentAccount);
 					}
 				});
 			}			
@@ -204,8 +234,7 @@ function getDailyData() {
  */
 function getStakeData(id, amount) {	
 	bayContract.stakeData(id, function(error, result) {
-		// this is one of the users stake		
-		if(!error && result[0].toLowerCase() === currentAccount.toLowerCase()) {
+		if(!error) {
 			let stake = new Stake();
 			stake.owner = result[0];
 			stake.indexUser = result[1].toNumber();
@@ -216,9 +245,7 @@ function getStakeData(id, amount) {
 			stakeMap.set(id, stake);
 			
 			getHexStakeData(stake.indexContract, bayAddress, amount);
-			
-			// remove button spinner
-			hideSpinner('#spinBtnStake');
+			//
 		} else {
 			console.log(error);
 		}
@@ -269,8 +296,6 @@ function getHexStakeData(index, staker, amount) {
 		if (hexStakeDataCount == amount) {
 			console.log("All stakes retrieved: " + amount);
 			hexStakeDataCount = 0;
-			
-			calcUserStats();
 		}
 	});
 }
@@ -278,9 +303,8 @@ function getHexStakeData(index, staker, amount) {
 function addStakeToTable(stake) {
 	var start = stake.lockedDay.add(1);
 	var end = stake.stakedDays.add(start);
-	var progress = (currentDay.add(2).sub(start)).div(end);
-	var progNumber = numeral(progress.toNumber())
-	var progFormat = formatPercentage(progNumber);
+	
+	var ownerFormat = formatOwner(stake);
 	
 	var principal = stake.stakedHearts.div(10 ** 8);
 	var principalNumber = numeral(principal.toNumber());
@@ -298,14 +322,14 @@ function addStakeToTable(stake) {
 	var currentValFormat = formatHex(currentValNumber);
 	
 	var stakeId = stake.stakeId;
-	var button = '<button type="button" value="' + stakeId + '" class="btn btn-sm text-uppercase" style="background-color: #ff5252; color: white; padding-top: 1px; padding-bottom: 1px;">End Stake</button>';
+	var button = '<button type="button" value="' + stakeId + '" class="btn btn-sm text-uppercase" style="background-color: #6c757d; color: white; padding-top: 1px; padding-bottom: 1px;">Select</button>';
 	//var button = 'Button';
 	
 	$('#stakeTable').append(
 		'<tr>' +
 		'<td class="align-middle">' + start + '</td>' +
 		'<td class="align-middle">' + end + '</td>' +
-		'<td class="align-middle">' + progFormat + '</td>' +
+		'<td class="align-middle">' + ownerFormat + '</td>' +
 		'<td class="align-middle">' + principalFormat + ' HEX' + '</td>' +
 		'<td class="align-middle">' + tsharesFormat + '</td>' +
 		'<td class="align-middle">' + interestFormat + ' HEX' + '</td>' +
@@ -331,50 +355,13 @@ function changeTableSize(amount) {
 	}
 }
 
-function showUserstats(statsArray) {
-	// Amount of stakes
-	$('#statStakes').text(statsArray[0]).show();
+function changeTableRowOwner(stake) {
+	let selector = ':button[value="' + stake.stakeId + '"]';
+	let owner = stake.owner;
+	let ownerFormat = formatOwner(stake);
 	
-	// Principal
-	$('#statPrincipal').text(statsArray[1] + " HEX").show();
-	
-	// T-Shares
-	$('#statShares').text(statsArray[2]).show();
-	
-	// Interest
-	$('#statInterest').text(statsArray[3] + " HEX").show();
-}
-
-function calcUserStats() {
-	let stakes = Array.from(stakeMap);
-	// stats
-	let stakeCount = 0;
-	let principal = new BN(0);
-	let tShares = new BN(0);
-	let interest = new BN(0);
-	
-	for (let i = 0; i < stakes.length; i++) {
-		let stake = stakes[i][1];
-		stakeCount++;
-		principal = principal.add(web3.toBigNumber(stake.stakedHearts));
-		tShares = tShares.add(web3.toBigNumber(stake.stakeShares));
-		interest = interest.add(web3.toBigNumber(stake.interest));
-	}
-	
-	let userStats = [stakeCount, principal, tShares, interest];	// Array with 4 values
-	userStats = formatUserstats(userStats);
-	showUserstats(userStats);
-}
-
-function formatUserstats(userStats) {
-	// stats
-	let stakeCount = userStats[0];
-	let principalNumber = numeral(userStats[1].div(new BN(10 ** 8)).toNumber());
-	let principal = formatHex(principalNumber);
-	let tSharesNumber = numeral(userStats[2].div(new BN(10 ** 12)).toNumber());
-	let tShares = formatShares(tSharesNumber);
-	let interestNumber = numeral(userStats[3].toNumber());
-	let interest = formatHex(interestNumber);
-	
-	return [stakeCount, principal, tShares, interest];
+	// get table row and cells
+	let rowIndex = $(selector).closest('tr')[0].rowIndex;
+	let cellOwner = $('#stakeTable')[0].rows[rowIndex].cells[2];
+	cellOwner.innerHTML = ownerFormat;
 }
