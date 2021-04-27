@@ -35,6 +35,9 @@ function initBayEvents() {
 		console.log("Bay event triggered");
 		if (!error) {
 			switch (event.event) {
+				case "ActionFrameUnlock" :
+					eventActionFrameUnlock(event);
+					break;
 				case "RecoverySet" :
 					eventRecoverySet(event);
 					break;
@@ -135,6 +138,14 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventActionFrameUnlock(event) {
+	console.log("ActionFrameUnlock event triggered");
+	let args = event.args;
+	let staker = args.staker;
+	let time = args.unlockTime;
+	callbackEventActionFrameUnlock(staker, time);
 }
 
 function eventRecoverySet(event) {

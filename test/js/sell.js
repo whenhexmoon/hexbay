@@ -94,6 +94,18 @@ function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, sta
 	}
 }
 
+function callbackEventActionFrameUnlock(staker, time) {	
+	// account available
+	if (currentAccount) {
+		staker = staker.toLowerCase();
+		
+		// is current user
+		if (staker === currentAccount.toLowerCase()) {
+			hideSpinner('#spinBtnUnlock');
+		}
+	}
+}
+
 function callbackEventRevoke(stakeId, owner) {
 	// account available
 	if (currentAccount) {
