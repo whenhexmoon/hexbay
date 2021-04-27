@@ -54,7 +54,7 @@ function unlockActionFrame() {
 		if (!error) {
 			console.log("Unlocking action frame");
 			// show button spinner
-			//showSpinner('#spinBtnBlock');
+			showSpinner('#spinBtnUnlock');
 		} else {
 			console.log(error);
 		}
