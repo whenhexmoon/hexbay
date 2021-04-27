@@ -18,7 +18,13 @@ window.addEventListener('load', (event) => {
 	init();
 });
 
-function init() {	
+function init() {
+	// Unlock button click listener
+	document.getElementById('btnUnlock').addEventListener("click", function() {
+		console.log("Unlock Button clicked");
+		unlockActionFrame();
+	});
+	
 	// Sell button click listener
 	document.getElementById('btnSell').addEventListener("click", function() {
 		console.log("Sell Button clicked");
