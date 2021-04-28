@@ -89,8 +89,6 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameDate = new Date();
 	actionFrameDate.setTime(actionFrame * 1000);
 	
-	console.log(recoveryData[0]);
-	
 	// do we need the unlock box?
 	if (recoveryData[0] !== "0x0000000000000000000000000000000000000000") {
 		showUnlockBox();
