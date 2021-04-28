@@ -97,6 +97,7 @@ function callbackRecoveryData(recoveryData) {
 function showWaitingTime(unlockTime) {
 	let now = new Date();
 	let waitTime = unlockTime - now;
+	console.log(waitTime);
 	document.getElementById('waitTime').innerHTML = waitTime;
 }
  
