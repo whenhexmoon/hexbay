@@ -87,7 +87,8 @@ function resetData() {
 
 function callbackRecoveryData(recoveryData) {
 	let actionFrame = recoveryData[2].valueOf();
-	console.log("Action Frame: " + actionFrame);
+	actionFrame = new Date().setTime(actionFrame * 1000);
+	console.log("Action Frame: " + actionFrame.getTime());
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
