@@ -110,7 +110,7 @@ function setClock() {
     var s = parseInt(waitTime % 60, 10);
 	h = (h < 10) ? ('0' + h) : h;
 	m = (m < 10) ? ('0' + m) : m;
-	s = (m < 10) ? ('0' + s) : s;
+	s = (s < 10) ? ('0' + s) : s;
 	
     var result = h + ":" + m + ":" + s;
     document.getElementById('waitTime').innerHTML = result;
