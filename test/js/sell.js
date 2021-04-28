@@ -98,6 +98,9 @@ function toggleUnlockBox(recovery) {
 		let now = new Date();
 		let diff = actionFrameTime - now;
 		
+		console.log(diff);
+		console.log(diff <= 1000 * 86400 * 2);
+		
 		// time is between 0 and 2 days
 		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
 			showWaitingTime();		// show waiting timer
