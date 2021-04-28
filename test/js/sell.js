@@ -120,7 +120,7 @@ function toggleUnlockBox(recovery) {
 }
 
 function showUnlockedTime() {
-	$("#waitText").show();
+	$("#unlockText").show();
 	setUnlockClock();
 }
 
@@ -147,7 +147,7 @@ function setUnlockClock() {
 }
 
 function showWaitingTime() {
-	$("#unlockText").show();
+	$("#waitText").show();
 	setWaitClock();
 }
 
