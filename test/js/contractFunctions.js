@@ -76,7 +76,7 @@ function stakeRecover(stakeId, receiver) {
 function getRecoveryData(address) {
 	bayContract.recoveries(address, function(error, result) {
 		if (!error) {
-			console.log(result);
+			callbackRecoveryData(result);
 		} else {
 			console.log(error);
 		}

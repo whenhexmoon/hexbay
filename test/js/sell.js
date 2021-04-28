@@ -82,9 +82,14 @@ function resetData() {
 }
 
 /*******************************
- * EVENT CALLBACKS
+ * CALLBACKS
  ******************************/
 
+function callbackRecoveryData(recoveryData) {
+	let actionFrame = recoveryData[2].valueOf();
+	console.log("Action Frame: " + actionFrame);
+}
+ 
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
 	// account available
 	if (currentAccount) {
