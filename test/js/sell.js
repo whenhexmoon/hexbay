@@ -89,6 +89,10 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameTime = new Date();
 	actionFrameTime.setTime(actionFrame * 1000);
 	
+	toggleUnlockBox();
+}
+
+function toggleUnlockBox() {
 	// do we need the unlock box?
 	if (recoveryData[0] !== "0x0000000000000000000000000000000000000000") {
 		let now = new Date();
@@ -97,22 +101,23 @@ function callbackRecoveryData(recoveryData) {
 		// time is between 0 and 2 days
 		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
 			showWaitingTime();		// show waiting timer
-			$("#waitText").show();
 		// time is between 0 and 14 days
 		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
 			showUnlockedTime();		// show unlocked timer
-			$("#unlockText").show();
 		// user needs to unlock first
 		} else {
-			showUnlockButton();						// show button
+			showUnlockButton();		// show button
 		}		
 		
 		// show the box
 		showUnlockBox();
+	} else {
+		hideUnlockBox();
 	}
 }
 
 function showUnlockedTime() {
+	$("#waitText").show();
 	setUnlockClock();
 }
 
@@ -135,6 +140,7 @@ function setUnlockClock() {
 }
 
 function showWaitingTime() {
+	$("#unlockText").show();
 	setWaitClock();
 }
 
