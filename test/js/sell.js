@@ -54,7 +54,7 @@ function init() {
 	initBayEvents();
 	
 	if (currentAccount !== "0x0") {
-		getActionFrame(currentAccount);
+		getRecoveryData(currentAccount);
 	}
 }
 

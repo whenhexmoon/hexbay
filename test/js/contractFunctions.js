@@ -73,7 +73,7 @@ function stakeRecover(stakeId, receiver) {
 	});
 }
 
-function getActionFrame(address) {
+function getRecoveryData(address) {
 	bayContract.recoveries(address, function(error, result) {
 		if (!error) {
 			console.log(result);
