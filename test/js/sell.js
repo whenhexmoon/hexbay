@@ -90,6 +90,14 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameDate = new Date();
 	actionFrameDate.setTime(actionFrame * 1000);
 	console.log("Action Frame: " + actionFrameDate.toDateString());
+	
+	showWaitingTime(actionFrameDate);
+}
+
+function showWaitingTime(unlockTime) {
+	let now = new Date();
+	let waitTime = unlockTime - now;
+	document.getElementById('waitTime').innerHTML = waitTime;
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
