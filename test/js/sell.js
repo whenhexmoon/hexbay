@@ -89,12 +89,12 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameTime = new Date();
 	actionFrameTime.setTime(actionFrame * 1000);
 	
-	toggleUnlockBox();
+	toggleUnlockBox(recoveryData[0]);
 }
 
-function toggleUnlockBox() {
+function toggleUnlockBox(recovery) {
 	// do we need the unlock box?
-	if (recoveryData[0] !== "0x0000000000000000000000000000000000000000") {
+	if (recovery !== "0x0000000000000000000000000000000000000000") {
 		let now = new Date();
 		let diff = actionFrameTime - now;
 		
