@@ -133,10 +133,14 @@ function setUnlockClock() {
 	m = (m < 10) ? ('0' + m) : m;
 	s = (s < 10) ? ('0' + s) : s;
 	
-    var result = h + ":" + m + ":" + s;
-    document.getElementById('unlockedTime').innerHTML = result;
+	if (unlockedTime >= 0) {
+		var result = h + ":" + m + ":" + s;
+		document.getElementById('unlockedTime').innerHTML = result;
     
-	setTimeout(setUnlockClock, 1000);
+		setTimeout(setUnlockClock, 1000);
+	} else {
+		toggleUnlockBox();
+	}
 }
 
 function showWaitingTime() {
@@ -156,10 +160,14 @@ function setWaitClock() {
 	m = (m < 10) ? ('0' + m) : m;
 	s = (s < 10) ? ('0' + s) : s;
 	
-    var result = h + ":" + m + ":" + s;
-    document.getElementById('waitTime').innerHTML = result;
+	if (waitTime >= 0) {
+		var result = h + ":" + m + ":" + s;
+		document.getElementById('waitTime').innerHTML = result;
     
-	setTimeout(setWaitClock, 1000);
+		setTimeout(setWaitClock, 1000);
+	} else {
+		toggleUnlockBox();
+	}
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
