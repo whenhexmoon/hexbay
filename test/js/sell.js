@@ -69,7 +69,7 @@ function update() {
 
 function resetData() {
 	toggleConnectBox();
-	hideUnlockBox();
+	//hideUnlockBox();
 	
 	// reset table size
 	$('#stakeForSaleTable').removeClass("table-sm");
