@@ -103,6 +103,7 @@ function showWaitingTime(time) {
 function setClock() {
     let now = new Date();
 	let waitTime = unlockTime - now;
+	waitTime = waitTime / 1000;
 	
 	var h = parseInt( waitTime / 3600 )
     var m = parseInt( waitTime / 60 ) % 60;
