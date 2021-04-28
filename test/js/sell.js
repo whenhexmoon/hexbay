@@ -53,25 +53,23 @@ function init() {
 	
 	// Event listener
 	initBayEvents();
-	
-	if (currentAccount !== "0x0") {
-		getRecoveryData(currentAccount);
-	}
 }
 
 function update() {
 	// HEX
 	getDailyData();
 	
+	// get recovery data
+	if (currentAccount !== "0x0") {
+		getRecoveryData(currentAccount);
+	}
+	
 	//getDailyDataRange(0, 10);
 }
 
 function resetData() {
 	toggleConnectBox();
-	
-	// Stop event listener
-	//stopEventForSale();
-	//stopEventRevoke();
+	hideUnlockBox();
 	
 	// reset table size
 	$('#stakeForSaleTable').removeClass("table-sm");
@@ -90,9 +88,12 @@ function callbackRecoveryData(recoveryData) {
 	let actionFrame = recoveryData[2].valueOf();
 	actionFrameDate = new Date();
 	actionFrameDate.setTime(actionFrame * 1000);
-	console.log("Action Frame: " + actionFrameDate.toDateString());
 	
-	showWaitingTime(actionFrameDate);
+	// do we need the unlock box?
+	if (recoveryData[0] !== "0x0") {
+		showUnlockBox();
+		showWaitingTime(actionFrameDate);
+	}
 }
 
 function showWaitingTime(time) {

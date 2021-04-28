@@ -85,6 +85,14 @@ function toggleConnectBox() {
 	}
 }
 
+function showUnlockBox() {
+	$("#unlockBox").show();
+}
+
+function hideUnlockBox() {
+	$("#unlockBox").hide();
+}
+
 function highligthButton(button) {
 	// Change background color of button element
 	button.css("background-color", "#007bff");
