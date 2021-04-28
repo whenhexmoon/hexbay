@@ -5,6 +5,7 @@ let selectedStake = null;
 let currentDay = new BN(0);
 let dailyData = new Array(0);	// dayPayoutTotal, dayStakeSharesTotal, dayUnclaimedSatoshisTotal
 let dailyDataRange = null;
+let unlockTime = new Date();
 
 // global counters for synchronization
 let hexStakeDataCount = 0;
@@ -94,11 +95,22 @@ function callbackRecoveryData(recoveryData) {
 	showWaitingTime(actionFrameDate);
 }
 
-function showWaitingTime(unlockTime) {
-	let now = new Date();
+function showWaitingTime(time) {
+	unlockTime = time;	
+	setClock();
+}
+
+function setClock() {
+    let now = new Date();
 	let waitTime = unlockTime - now;
-	console.log(waitTime);
-	document.getElementById('waitTime').innerHTML = waitTime;
+	
+	var h = parseInt( waitTime / 3600 )
+    var m = parseInt( waitTime / 60 ) % 60;
+    var s = parseInt(waitTime % 60, 10);
+    var result = h + " hrs, " + m + " min " + s + " sec";
+    document.getElementById('waitTime').innerHTML = result;
+    setTimeout(setClock, 1000);
+    
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
