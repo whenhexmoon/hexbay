@@ -108,7 +108,7 @@ function setClock() {
 	var h = parseInt( waitTime / 3600 )
     var m = parseInt( waitTime / 60 ) % 60;
     var s = parseInt(waitTime % 60, 10);
-    var result = h + " hrs " + m + " min " + s + " sec";
+    var result = h + ":" + m + ":" + s;
     document.getElementById('waitTime').innerHTML = result;
     setTimeout(setClock, 1000);
     
