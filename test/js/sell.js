@@ -5,7 +5,7 @@ let selectedStake = null;
 let currentDay = new BN(0);
 let dailyData = new Array(0);	// dayPayoutTotal, dayStakeSharesTotal, dayUnclaimedSatoshisTotal
 let dailyDataRange = null;
-let unlockTime = new Date();
+let actionFrameTime = new Date();
 
 // global counters for synchronization
 let hexStakeDataCount = 0;
@@ -86,24 +86,61 @@ function resetData() {
 
 function callbackRecoveryData(recoveryData) {
 	let actionFrame = recoveryData[2].valueOf();
-	actionFrameDate = new Date();
-	actionFrameDate.setTime(actionFrame * 1000);
+	actionFrameTime = new Date();
+	actionFrameTime.setTime(actionFrame * 1000);
 	
 	// do we need the unlock box?
 	if (recoveryData[0] !== "0x0000000000000000000000000000000000000000") {
+		let now = new Date();
+		let diff = actionFrameTime - now;
+		
+		// time is between 0 and 2 days
+		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
+			showWaitingTime();		// show waiting timer
+			$("#waitText").show();
+		// time is between 0 and 14 days
+		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
+			showUnlockedTime();		// show unlocked timer
+			$("#unlockText").show();
+		// user needs to unlock first
+		} else {
+			showUnlockButton();						// show button
+		}		
+		
+		// show the box
 		showUnlockBox();
-		showWaitingTime(actionFrameDate);
 	}
 }
 
-function showWaitingTime(time) {
-	unlockTime = time;	
-	setClock();
+function showUnlockedTime() {
+	setUnlockClock();
 }
 
-function setClock() {
+function setUnlockClock() {
     let now = new Date();
-	let waitTime = unlockTime - now;
+	let unlockedTime = ( actionFrameTime + (14*86400*1000) ) - now;
+	unlockedTime = unlockedTime / 1000;
+	
+	var h = parseInt( unlockedTime / 3600 )
+    var m = parseInt( unlockedTime / 60 ) % 60;
+    var s = parseInt(unlockedTime % 60, 10);
+	h = (h < 10) ? ('0' + h) : h;
+	m = (m < 10) ? ('0' + m) : m;
+	s = (s < 10) ? ('0' + s) : s;
+	
+    var result = h + ":" + m + ":" + s;
+    document.getElementById('unlockedTime').innerHTML = result;
+    
+	setTimeout(setUnlockClock, 1000);
+}
+
+function showWaitingTime() {
+	setWaitClock();
+}
+
+function setWaitClock() {
+    let now = new Date();
+	let waitTime = actionFrameTime - now;
 	waitTime = waitTime / 1000;
 	
 	var h = parseInt( waitTime / 3600 )
@@ -116,7 +153,7 @@ function setClock() {
     var result = h + ":" + m + ":" + s;
     document.getElementById('waitTime').innerHTML = result;
     
-	setTimeout(setClock, 1000);
+	setTimeout(setWaitClock, 1000);
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {

@@ -93,6 +93,14 @@ function hideUnlockBox() {
 	$("#unlockBox").hide();
 }
 
+function showUnlockButton() {
+	$('#unlockButton').show();
+}
+
+function hideUnlockButton() {
+	$('#unlockButton').hide();
+}
+
 function highligthButton(button) {
 	// Change background color of button element
 	button.css("background-color", "#007bff");

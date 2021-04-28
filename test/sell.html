@@ -126,16 +126,21 @@
 			After a period of 48 hours you can take actions.
 		</span>
 		
-		<div class="p-1">
+		<div id="unlockButton" class="p-1" style="display: none;">
 			<button type="button" id="btnUnlock" class="btn btn-secondary text-uppercase mx-2">
 				<span id="spinBtnUnlock" class="spinner-border spinner-border-sm spinner-size"></span>
 				Unlock
 			</button>
 		</div>
 		
-		<span style="font-size: 1.25rem;">
+		<span id="waitText" style="font-size: 1.25rem; display: none;">
 			Waiting for:
 			<span id="waitTime">00:00:00</span>
+		</span>
+		
+		<span id="unlockText" style="font-size: 1.25rem; display: none;">
+			Unlocked for:
+			<span id="unlockedTime">00:00:00</span>
 		</span>
 	</div>
 </div>
