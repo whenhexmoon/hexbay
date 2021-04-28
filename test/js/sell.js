@@ -92,7 +92,7 @@ function callbackRecoveryData(recoveryData) {
 	console.log(recoveryData[0]);
 	
 	// do we need the unlock box?
-	if (recoveryData[0] !== "0x0") {
+	if (recoveryData[0] !== "0x0000000000000000000000000000000000000000") {
 		showUnlockBox();
 		showWaitingTime(actionFrameDate);
 	}
