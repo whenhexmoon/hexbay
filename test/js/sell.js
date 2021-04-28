@@ -52,6 +52,10 @@ function init() {
 	
 	// Event listener
 	initBayEvents();
+	
+	if (currentAccount !== "0x0") {
+		getActionFrame(currentAccount);
+	}
 }
 
 function update() {

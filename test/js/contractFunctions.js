@@ -73,6 +73,16 @@ function stakeRecover(stakeId, receiver) {
 	});
 }
 
+function getActionFrame(address) {
+	bayContract.recoveries(address, function(error, result) {
+		if (!error) {
+			console.log(result);
+		} else {
+			console.log(error);
+		}
+	});
+}
+
 // Contract Base
 function stakeStart(hearts, days, referral) {
 	bayContract.stakeStart(hearts, days, referral, function(error, result) {
