@@ -108,10 +108,14 @@ function setClock() {
 	var h = parseInt( waitTime / 3600 )
     var m = parseInt( waitTime / 60 ) % 60;
     var s = parseInt(waitTime % 60, 10);
+	h = (h < 10) ? ('0' + h) : h;
+	m = (m < 10) ? ('0' + m) : m;
+	s = (m < 10) ? ('0' + s) : s;
+	
     var result = h + ":" + m + ":" + s;
     document.getElementById('waitTime').innerHTML = result;
-    setTimeout(setClock, 1000);
     
+	setTimeout(setClock, 1000);
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
