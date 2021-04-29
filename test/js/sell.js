@@ -125,11 +125,11 @@ function toggleUnlockBox(recovery) {
 }
 
 function hideUnlockedTime() {
-	$("#unlockText").hide();
+	$("#unlockTimer").hide();
 }
 
 function showUnlockedTime() {
-	$("#unlockText").show();
+	$("#unlockTimer").show();
 	setUnlockClock();
 }
 
@@ -158,11 +158,11 @@ function setUnlockClock() {
 }
 
 function hideWaitingTime() {
-	$("#waitText").hide();
+	$("#waitTimer").hide();
 }
 
 function showWaitingTime() {
-	$("#waitText").show();
+	$("#waitTimer").show();
 	setWaitClock();
 }
 
