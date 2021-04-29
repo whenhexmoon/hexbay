@@ -91,6 +91,24 @@ function callbackRecoveryData(recoveryData) {
 	
 	toggleUnlockBox(recoveryData[0]);
 }
+
+function callbackEventActionFrameUnlock(staker, time) {	
+	// account available
+	if (currentAccount) {
+		staker = staker.toLowerCase();
+		
+		// is current user
+		if (staker === currentAccount.toLowerCase()) {
+			hideSpinner('#spinBtnUnlock');
+			
+			let actionFrame = time.valueOf();
+			actionFrameTime = new Date();
+			actionFrameTime.setTime(actionFrame * 1000);
+			
+			toggleUnlockBox(currentAccount.toLowerCase());
+		}
+	}
+}
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
 	// account available
@@ -108,24 +126,6 @@ function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, sta
 		}
 	} else {
 		hideSpinner('#spinBtnSell');
-	}
-}
-
-function callbackEventActionFrameUnlock(staker, time) {	
-	// account available
-	if (currentAccount) {
-		staker = staker.toLowerCase();
-		
-		// is current user
-		if (staker === currentAccount.toLowerCase()) {
-			hideSpinner('#spinBtnUnlock');
-			
-			let actionFrame = time.valueOf();
-			actionFrameTime = new Date();
-			actionFrameTime.setTime(actionFrame * 1000);
-			
-			toggleUnlockBox(currentAccount.toLowerCase());
-		}
 	}
 }
 
