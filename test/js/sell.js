@@ -105,7 +105,7 @@ function toggleUnlockBox(recovery) {
 			hideUnlockedTime();
 			hideUnlockButton();
 			showWaitingTime();		// show waiting timer
-		// time is between 0 and 14 days
+		// time is between 0 and 14 days active
 		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
 			hideWaitingTime();
 			hideUnlockButton();
