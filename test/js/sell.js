@@ -102,15 +102,18 @@ function toggleUnlockBox(recovery) {
 		
 		// time is between 0 and 2 days
 		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
-			console.log("Waiting Time");
+			hideUnlockedTime();
+			hideUnlockButton();
 			showWaitingTime();		// show waiting timer
 		// time is between 0 and 14 days
 		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
-			console.log("Unlocked Time");
+			hideWaitingTime();
+			hideUnlockButton();
 			showUnlockedTime();		// show unlocked timer
 		// user needs to unlock first
 		} else {
-			console.log("Unlock Button");
+			hideUnlockedTime();
+			hideWaitingTime();
 			showUnlockButton();		// show button
 		}		
 		
@@ -119,6 +122,10 @@ function toggleUnlockBox(recovery) {
 	} else {
 		hideUnlockBox();
 	}
+}
+
+function hideUnlockedTime() {
+	$("#unlockText").hide();
 }
 
 function showUnlockedTime() {
@@ -131,23 +138,27 @@ function setUnlockClock() {
 	let unlockedTime = ( actionFrameTime.valueOf() + (14*86400*1000) ) - now.valueOf();
 	unlockedTime = unlockedTime / 1000;
 	
-	console.log("unlockedTime " + unlockedTime);
-	
-	var h = parseInt( unlockedTime / 3600 )
+	var d = parseInt( unlockedTime / 24*3600);
+	var h = parseInt( unlockedTime / 3600) % 24;
     var m = parseInt( unlockedTime / 60 ) % 60;
     var s = parseInt(unlockedTime % 60, 10);
+	d = (d < 10) ? ('0' + d) : d;
 	h = (h < 10) ? ('0' + h) : h;
 	m = (m < 10) ? ('0' + m) : m;
 	s = (s < 10) ? ('0' + s) : s;
 	
 	if (unlockedTime >= 0) {
-		var result = h + ":" + m + ":" + s;
+		var result = d + ":" + h + ":" + m + ":" + s;
 		document.getElementById('unlockedTime').innerHTML = result;
     
 		setTimeout(setUnlockClock, 1000);
 	} else {
 		toggleUnlockBox();
 	}
+}
+
+function hideWaitingTime() {
+	$("#waitText").hide();
 }
 
 function showWaitingTime() {
