@@ -102,19 +102,21 @@ function toggleUnlockBox(recovery) {
 		
 		// time is between 0 and 2 days
 		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
-			hideUnlockedTime();
-			hideUnlockButton();
-			showWaitingTime();		// show waiting timer
+			hideUnlocked();
+			hideUnlock();
+			showWait();		// show waiting text and timer
+			setWaitClock();
 		// time is between 0 and 14 days active
 		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
-			hideWaitingTime();
-			hideUnlockButton();
-			showUnlockedTime();		// show unlocked timer
+			hideWait();
+			hideUnlock();
+			showUnlocked();		// show unlocked text and timer
+			setUnlockClock();
 		// user needs to unlock first
 		} else {
-			hideUnlockedTime();
-			hideWaitingTime();
-			showUnlockButton();		// show button
+			hideUnlocked();
+			hideWait();
+			showUnlock();		// show button
 		}		
 		
 		// show the box
@@ -124,13 +126,28 @@ function toggleUnlockBox(recovery) {
 	}
 }
 
-function hideUnlockedTime() {
-	$("#unlockTimer").hide();
+function showUnlock() {
+	$('#unlock').show();
 }
 
-function showUnlockedTime() {
-	$("#unlockTimer").show();
-	setUnlockClock();
+function showUnlocked() {
+	$('#unlocked').show();
+}
+
+function showWait() {
+	$('#wait').show();
+}
+
+function hideUnlock() {
+	$('#unlock').hide();
+}
+
+function hideUnlocked() {
+	$('#unlocked').hide();
+}
+
+function hideWait() {
+	$('#wait').hide();
 }
 
 function setUnlockClock() {
@@ -155,15 +172,6 @@ function setUnlockClock() {
 	} else {
 		toggleUnlockBox();
 	}
-}
-
-function hideWaitingTime() {
-	$("#waitTimer").hide();
-}
-
-function showWaitingTime() {
-	$("#waitTimer").show();
-	setWaitClock();
 }
 
 function setWaitClock() {
