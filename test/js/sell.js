@@ -89,6 +89,8 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameTime = new Date();
 	actionFrameTime.setTime(actionFrame * 1000);
 	
+	console.log();
+	
 	toggleUnlockBox(recoveryData[0]);
 }
 
@@ -98,17 +100,17 @@ function toggleUnlockBox(recovery) {
 		let now = new Date();
 		let diff = actionFrameTime - now;
 		
-		console.log(diff);
-		console.log(diff <= 1000 * 86400 * 2);
-		
 		// time is between 0 and 2 days
 		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
+			console.log("Waiting Time");
 			showWaitingTime();		// show waiting timer
 		// time is between 0 and 14 days
 		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
+			console.log("Unlocked Time");
 			showUnlockedTime();		// show unlocked timer
 		// user needs to unlock first
 		} else {
+			console.log("Unlock Button");
 			showUnlockButton();		// show button
 		}		
 		
