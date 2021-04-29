@@ -128,7 +128,7 @@ function showUnlockedTime() {
 
 function setUnlockClock() {
     let now = new Date();
-	let unlockedTime = ( actionFrameTime + (14*86400*1000) ) - now;
+	let unlockedTime = ( actionFrameTime.valueOf() + (14*86400*1000) ) - now.valueOf();
 	unlockedTime = unlockedTime / 1000;
 	
 	console.log("unlockedTime " + unlockedTime);
