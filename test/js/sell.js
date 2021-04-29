@@ -138,7 +138,7 @@ function setUnlockClock() {
 	let unlockedTime = ( actionFrameTime.valueOf() + (14*86400*1000) ) - now.valueOf();
 	unlockedTime = unlockedTime / 1000;
 	
-	var d = parseInt( unlockedTime / 24*3600);
+	var d = parseInt( unlockedTime / (24*3600));
 	var h = parseInt( unlockedTime / 3600) % 24;
     var m = parseInt( unlockedTime / 60 ) % 60;
     var s = parseInt(unlockedTime % 60, 10);
