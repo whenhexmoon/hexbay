@@ -89,111 +89,7 @@ function callbackRecoveryData(recoveryData) {
 	actionFrameTime = new Date();
 	actionFrameTime.setTime(actionFrame * 1000);
 	
-	console.log();
-	
 	toggleUnlockBox(recoveryData[0]);
-}
-
-function toggleUnlockBox(recovery) {
-	// do we need the unlock box?
-	if (recovery !== "0x0000000000000000000000000000000000000000") {
-		let now = new Date();
-		let diff = actionFrameTime - now;
-		
-		// time is between 0 and 2 days
-		if (diff <= 1000 * 86400 * 2 && diff >= 0) {
-			hideUnlocked();
-			hideUnlock();
-			showWait();		// show waiting text and timer
-			setWaitClock();
-		// time is between 0 and 14 days active
-		} else if (diff < 0 && diff >= -1 * (1000 * 86400 * 14)) {
-			hideWait();
-			hideUnlock();
-			showUnlocked();		// show unlocked text and timer
-			setUnlockClock();
-		// user needs to unlock first
-		} else {
-			hideUnlocked();
-			hideWait();
-			showUnlock();		// show button
-		}		
-		
-		// show the box
-		showUnlockBox();
-	} else {
-		hideUnlockBox();
-	}
-}
-
-function showUnlock() {
-	$('#unlock').show();
-}
-
-function showUnlocked() {
-	$('#unlocked').show();
-}
-
-function showWait() {
-	$('#wait').show();
-}
-
-function hideUnlock() {
-	$('#unlock').hide();
-}
-
-function hideUnlocked() {
-	$('#unlocked').hide();
-}
-
-function hideWait() {
-	$('#wait').hide();
-}
-
-function setUnlockClock() {
-    let now = new Date();
-	let unlockedTime = ( actionFrameTime.valueOf() + (14*86400*1000) ) - now.valueOf();
-	unlockedTime = unlockedTime / 1000;
-	
-	var d = parseInt( unlockedTime / (24*3600));
-	var h = parseInt( unlockedTime / 3600) % 24;
-    var m = parseInt( unlockedTime / 60 ) % 60;
-    var s = parseInt(unlockedTime % 60, 10);
-	d = (d < 10) ? ('0' + d) : d;
-	h = (h < 10) ? ('0' + h) : h;
-	m = (m < 10) ? ('0' + m) : m;
-	s = (s < 10) ? ('0' + s) : s;
-	
-	if (unlockedTime >= 0) {
-		var result = d + ":" + h + ":" + m + ":" + s;
-		document.getElementById('unlockedTime').innerHTML = result;
-    
-		setTimeout(setUnlockClock, 1000);
-	} else {
-		toggleUnlockBox();
-	}
-}
-
-function setWaitClock() {
-    let now = new Date();
-	let waitTime = actionFrameTime - now;
-	waitTime = waitTime / 1000;
-	
-	var h = parseInt( waitTime / 3600 )
-    var m = parseInt( waitTime / 60 ) % 60;
-    var s = parseInt(waitTime % 60, 10);
-	h = (h < 10) ? ('0' + h) : h;
-	m = (m < 10) ? ('0' + m) : m;
-	s = (s < 10) ? ('0' + s) : s;
-	
-	if (waitTime >= 0) {
-		var result = h + ":" + m + ":" + s;
-		document.getElementById('waitTime').innerHTML = result;
-    
-		setTimeout(setWaitClock, 1000);
-	} else {
-		toggleUnlockBox();
-	}
 }
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
@@ -223,6 +119,12 @@ function callbackEventActionFrameUnlock(staker, time) {
 		// is current user
 		if (staker === currentAccount.toLowerCase()) {
 			hideSpinner('#spinBtnUnlock');
+			
+			let actionFrame = time.valueOf();
+			actionFrameTime = new Date();
+			actionFrameTime.setTime(actionFrame * 1000);
+			
+			toggleUnlockBox(currentAccount.toLowerCase());
 		}
 	}
 }
