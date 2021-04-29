@@ -120,12 +120,14 @@
 	<div class="container p-2 text-center rounded border border-info" style="max-width: 600px;">
 		<span class="badge badge-pill badge-info">Info</span>
 		
-		<div>
-			<span class="align-middle" style="font-size: 1rem;">
-				Your account is protected by a recovery address. 
-				In order to sell stakes or change prices, you need to unlock your account first.
-				After a period of 48 hours you can take actions.
-			</span>
+		<span class="align-middle" style="font-size: 1rem;">
+			Your account is protected by a recovery address. 
+			In order to sell stakes or change prices, you need to unlock your account first.
+			After a period of 48 hours you can take actions.
+		</span>
+		<div id="waitTimer" class="p-1" style="font-size: 1.25rem; display: none;">
+			Waiting for:
+			<span id="waitTime">00:00:00</span>
 		</div>
 		
 		<span id="unlockText" class="align-middle" style="font-size: 1rem; display: none;">
@@ -133,22 +135,16 @@
 			You are able to sell stakes or change prices for the next 14 days.
 			After that period your account will be locked automatically.
 		</span>
+		<div id="unlockTimer" class="p-1" style="font-size: 1.25rem; display: none;">
+			Unlocked for:
+			<span id="unlockedTime">00:00:00</span>
+		</div>
 		
 		<div id="unlockButton" class="p-1" style="display: none;">
 			<button type="button" id="btnUnlock" class="btn btn-secondary text-uppercase mx-2">
 				<span id="spinBtnUnlock" class="spinner-border spinner-border-sm spinner-size"></span>
 				Unlock
 			</button>
-		</div>
-		
-		<div id="waitTimer" class="p-1" style="font-size: 1.25rem; display: none;">
-			Waiting for:
-			<span id="waitTime">00:00:00</span>
-		</div>
-		
-		<div id="unlockTimer" class="p-1" style="font-size: 1.25rem; display: none;">
-			Unlocked for:
-			<span id="unlockedTime">00:00:00</span>
 		</div>
 	</div>
 </div>
