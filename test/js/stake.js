@@ -37,6 +37,7 @@ function init() {
 	
 	// Event listener
 	initHexEvents();
+	initActionFrameUnlockEvents();
 }
 
 function update() {		

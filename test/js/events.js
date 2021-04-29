@@ -122,6 +122,19 @@ function initRecoverySetEvents() {
 	sub.stopWatching(stoppedWatching);
 }
 
+function initActionFrameUnlockEvents() {
+	const unlockEvents = bayContract.ActionFrameUnlock();
+	
+	unlockEvents.watch(function(error, event) {
+		console.log("ActionFrameUnlock event triggered");
+		if (!error) {
+			eventActionFrameUnlock(event);
+		} else {
+			console.log(error);
+		}
+	});
+}
+
 function stoppedWatching() {
 	console.log("Stopped watching for past recovery set events");
 }
