@@ -110,6 +110,8 @@ function callbackEventRecoverySet(staker, recovery) {
 	// user has set a recovery address
 	if (staker === currentAccount.toLowerCase()) {
 		hideSpinner('#spinBtnSet');
+		
+		toggleUnlockBox(recovery);
 	}
 }
 
