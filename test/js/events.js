@@ -94,15 +94,18 @@ function initMintEvents() {
 }
 
 function initRecoverySetEvents() {
-	/*bayContract.RecoverySet(
-		{ recovery: currentAccount.toLowerCase() }, 
-		{ fromBlock: 0, toBlock: 'latest' }
-	).get((error, eventResult) => {
-		if (error)
-			console.log('Error in recovery set event handler: ' + error);
-		else
-			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
-	});*/
+	
+	/*
+	var filter = web3.eth.filter({recovery: currentAccount.toLowerCase()}, {toBlock:'pending'});
+	// get all past logs.
+	var myResults = filter.get(function(error, logs){
+		console.log(logs);
+	});
+	// stops and uninstalls the filter
+	filter.stopWatching();
+	*/
+	
+	
 	
 	recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
@@ -112,7 +115,7 @@ function initRecoverySetEvents() {
 	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
-	recoverySetEvents.watch(function(error, logs){ 
+	recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
@@ -122,6 +125,7 @@ function initRecoverySetEvents() {
 	});
 	
 	recoverySetEvents.stopWatching(stoppedWatching);
+	
 }
 
 function initActionFrameUnlockEvents() {
