@@ -96,7 +96,7 @@ function initMintEvents() {
 function initRecoverySetEvents() {
 	
 	/*
-	var filter = web3.eth.filter({recovery: currentAccount.toLowerCase()}, {toBlock:'pending'});
+	var filter = bayContract.RecoverySet({recovery: currentAccount.toLowerCase()}, {toBlock:'pending'});
 	// get all past logs.
 	var myResults = filter.get(function(error, logs){
 		console.log(logs);
@@ -124,7 +124,7 @@ function initRecoverySetEvents() {
 		}
 	});
 	
-	recoverySetEvents.stopWatching(stoppedWatching);
+	//recoverySetEvents.stopWatching(stoppedWatching);
 	
 }
 
