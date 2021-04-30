@@ -1,6 +1,6 @@
 // EVENTS
-const recoverySetEvents;
-const sub;
+let recoverySetEvents;
+let sub;
 
 // Init Event Listener
 function initHexEvents() {
