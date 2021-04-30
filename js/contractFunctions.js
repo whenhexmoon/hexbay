@@ -54,7 +54,7 @@ function unlockActionFrame() {
 		if (!error) {
 			console.log("Unlocking action frame");
 			// show button spinner
-			//showSpinner('#spinBtnBlock');
+			showSpinner('#spinBtnUnlock');
 		} else {
 			console.log(error);
 		}
@@ -67,6 +67,16 @@ function stakeRecover(stakeId, receiver) {
 			console.log("Recovering stake " + stakeId + " to " + receiver);
 			// show button spinner
 			showSpinner('#spinBtnRecover');
+		} else {
+			console.log(error);
+		}
+	});
+}
+
+function getRecoveryData(address) {
+	bayContract.recoveries(address, function(error, result) {
+		if (!error) {
+			callbackRecoveryData(result);
 		} else {
 			console.log(error);
 		}

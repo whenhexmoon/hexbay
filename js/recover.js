@@ -17,7 +17,13 @@ window.addEventListener('load', (event) => {
 	init();
 });
 
-function init() {	
+function init() {
+	// Unlock button click listener
+	document.getElementById('btnUnlock').addEventListener("click", function() {
+		console.log("Unlock Button clicked");
+		unlockActionFrame();
+	});
+	
 	// Set Recovery button click event listener
 	document.getElementById('btnSet').addEventListener("click", function() {
 		let recovery = document.getElementById('inputAddress').value;
@@ -47,18 +53,54 @@ function update() {
 	// HEX
 	getDailyData();
 	
+	// get recovery data
+	if (currentAccount !== "0x0") {
+		getRecoveryData(currentAccount);
+	}
+	
 	// Bay
 	getStakeCount(currentAccount);
 }
 
 function resetData() {
 	toggleConnectBox();
+	hideUnlockBox();
 	
 	// reset table size
 	$('#stakeTable').removeClass("table-sm");
 	
 	// reset stake entries
 	$("#stakeTable > tbody").empty();
+}
+
+/*******************************
+ * CALLBACKS
+ ******************************/
+
+function callbackRecoveryData(recoveryData) {
+	let actionFrame = recoveryData[2].valueOf();
+	actionFrameTime = new Date();
+	actionFrameTime.setTime(actionFrame * 1000);
+	
+	toggleUnlockBox(recoveryData[0]);
+}
+
+function callbackEventActionFrameUnlock(staker, time) {	
+	// account available
+	if (currentAccount) {
+		staker = staker.toLowerCase();
+		
+		// is current user
+		if (staker === currentAccount.toLowerCase()) {
+			hideSpinner('#spinBtnUnlock');
+			
+			let actionFrame = time.valueOf();
+			actionFrameTime = new Date();
+			actionFrameTime.setTime(actionFrame * 1000);
+			
+			toggleUnlockBox(currentAccount.toLowerCase());
+		}
+	}
 }
 
 function callbackEventRecoverySet(staker, recovery) {
@@ -68,6 +110,8 @@ function callbackEventRecoverySet(staker, recovery) {
 	// user has set a recovery address
 	if (staker === currentAccount.toLowerCase()) {
 		hideSpinner('#spinBtnSet');
+		
+		toggleUnlockBox(recovery);
 	}
 }
 

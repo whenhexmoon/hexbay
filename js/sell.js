@@ -5,6 +5,7 @@ let selectedStake = null;
 let currentDay = new BN(0);
 let dailyData = new Array(0);	// dayPayoutTotal, dayStakeSharesTotal, dayUnclaimedSatoshisTotal
 let dailyDataRange = null;
+let actionFrameTime = new Date();
 
 // global counters for synchronization
 let hexStakeDataCount = 0;
@@ -58,10 +59,6 @@ function update() {
 function resetData() {
 	toggleConnectBox();
 	
-	// Stop event listener
-	//stopEventForSale();
-	//stopEventRevoke();
-	
 	// reset table size
 	$('#stakeForSaleTable').removeClass("table-sm");
 	$('#stakeTable').removeClass("table-sm");
@@ -72,9 +69,9 @@ function resetData() {
 }
 
 /*******************************
- * EVENT CALLBACKS
+ * CALLBACKS
  ******************************/
-
+ 
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
 	// account available
 	if (currentAccount) {

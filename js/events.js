@@ -35,6 +35,9 @@ function initBayEvents() {
 		console.log("Bay event triggered");
 		if (!error) {
 			switch (event.event) {
+				case "ActionFrameUnlock" :
+					eventActionFrameUnlock(event);
+					break;
 				case "RecoverySet" :
 					eventRecoverySet(event);
 					break;
@@ -89,17 +92,20 @@ function initMintEvents() {
 }
 
 function initRecoverySetEvents() {
-	/*bayContract.RecoverySet(
-		{ recovery: currentAccount.toLowerCase() }, 
-		{ fromBlock: 0, toBlock: 'latest' }
-	).get((error, eventResult) => {
-		if (error)
-			console.log('Error in recovery set event handler: ' + error);
-		else
-			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
-	});*/
 	
-	var recoverySetEvents = bayContract.RecoverySet(
+	/*
+	var filter = bayContract.RecoverySet({recovery: currentAccount.toLowerCase()}, {toBlock:'pending'});
+	// get all past logs.
+	var myResults = filter.get(function(error, logs){
+		console.log(logs);
+	});
+	// stops and uninstalls the filter
+	filter.stopWatching();
+	*/
+	
+	
+	
+	let recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
@@ -107,7 +113,7 @@ function initRecoverySetEvents() {
 	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
-	var sub = recoverySetEvents.get(function(error, logs){ 
+	recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
@@ -116,7 +122,21 @@ function initRecoverySetEvents() {
 		}
 	});
 	
-	sub.stopWatching(stoppedWatching);
+	//recoverySetEvents.stopWatching(stoppedWatching);
+	
+}
+
+function initActionFrameUnlockEvents() {
+	const unlockEvents = bayContract.ActionFrameUnlock();
+	
+	unlockEvents.watch(function(error, event) {
+		console.log("ActionFrameUnlock event triggered");
+		if (!error) {
+			eventActionFrameUnlock(event);
+		} else {
+			console.log(error);
+		}
+	});
 }
 
 function stoppedWatching() {
@@ -135,6 +155,14 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventActionFrameUnlock(event) {
+	console.log("ActionFrameUnlock event triggered");
+	let args = event.args;
+	let staker = args.staker;
+	let time = args.unlockTime;
+	callbackEventActionFrameUnlock(staker, time);
 }
 
 function eventRecoverySet(event) {

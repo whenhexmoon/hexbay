@@ -3,6 +3,7 @@ var BN = web3.BigNumber;
 const stakeMap = new Map();	// key: stakeId
 let currentDay = new BN(0);
 let dailyData = new Array(0);	// dayPayoutTotal, dayStakeSharesTotal, dayUnclaimedSatoshisTotal
+let actionFrameTime = new Date();
 
 // global counters for synchronization
 let hexStakeDataCount = 0;
@@ -60,7 +61,10 @@ function resetData() {
 	$("#stakeTable > tbody").empty();
 }
 
-// Event listener callbacks
+/*******************************
+ * CALLBACKS
+ ******************************/
+
 function callbackEventStakeStart(stakerAddr, stakeId) {
 	console.log("Staker: " + stakerAddr);
 	
