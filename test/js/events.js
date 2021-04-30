@@ -1,4 +1,6 @@
 // EVENTS
+const recoverySetEvents;
+const sub;
 
 // Init Event Listener
 function initHexEvents() {
@@ -102,7 +104,7 @@ function initRecoverySetEvents() {
 			console.log('RecoverySet: ' + JSON.stringify(eventResult.args));
 	});*/
 	
-	var recoverySetEvents = bayContract.RecoverySet(
+	recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
@@ -110,7 +112,7 @@ function initRecoverySetEvents() {
 	console.log("Get past recovery set events");
 	
 	// would get all past logs again.
-	var sub = recoverySetEvents.get(function(error, logs){ 
+	sub = recoverySetEvents.get(function(error, logs){ 
 		if (!error) {
 			// iterate all staker addresses
 			logs.forEach(event => callbackPastRecoverySetEvents(event.args.staker));
@@ -119,7 +121,7 @@ function initRecoverySetEvents() {
 		}
 	});
 	
-	sub.stopWatching(stoppedWatching);
+	//sub.stopWatching(stoppedWatching);
 }
 
 function initActionFrameUnlockEvents() {
