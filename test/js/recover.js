@@ -47,18 +47,54 @@ function update() {
 	// HEX
 	getDailyData();
 	
+	// get recovery data
+	if (currentAccount !== "0x0") {
+		getRecoveryData(currentAccount);
+	}
+	
 	// Bay
 	getStakeCount(currentAccount);
 }
 
 function resetData() {
 	toggleConnectBox();
+	hideUnlockBox();
 	
 	// reset table size
 	$('#stakeTable').removeClass("table-sm");
 	
 	// reset stake entries
 	$("#stakeTable > tbody").empty();
+}
+
+/*******************************
+ * CALLBACKS
+ ******************************/
+
+function callbackRecoveryData(recoveryData) {
+	let actionFrame = recoveryData[2].valueOf();
+	actionFrameTime = new Date();
+	actionFrameTime.setTime(actionFrame * 1000);
+	
+	toggleUnlockBox(recoveryData[0]);
+}
+
+function callbackEventActionFrameUnlock(staker, time) {	
+	// account available
+	if (currentAccount) {
+		staker = staker.toLowerCase();
+		
+		// is current user
+		if (staker === currentAccount.toLowerCase()) {
+			hideSpinner('#spinBtnUnlock');
+			
+			let actionFrame = time.valueOf();
+			actionFrameTime = new Date();
+			actionFrameTime.setTime(actionFrame * 1000);
+			
+			toggleUnlockBox(currentAccount.toLowerCase());
+		}
+	}
 }
 
 function callbackEventRecoverySet(staker, recovery) {

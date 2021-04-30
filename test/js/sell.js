@@ -59,17 +59,11 @@ function update() {
 	// HEX
 	getDailyData();
 	
-	// get recovery data
-	if (currentAccount !== "0x0") {
-		getRecoveryData(currentAccount);
-	}
-	
 	//getDailyDataRange(0, 10);
 }
 
 function resetData() {
 	toggleConnectBox();
-	hideUnlockBox();
 	
 	// reset table size
 	$('#stakeForSaleTable').removeClass("table-sm");
@@ -83,32 +77,6 @@ function resetData() {
 /*******************************
  * CALLBACKS
  ******************************/
-
-function callbackRecoveryData(recoveryData) {
-	let actionFrame = recoveryData[2].valueOf();
-	actionFrameTime = new Date();
-	actionFrameTime.setTime(actionFrame * 1000);
-	
-	toggleUnlockBox(recoveryData[0]);
-}
-
-function callbackEventActionFrameUnlock(staker, time) {	
-	// account available
-	if (currentAccount) {
-		staker = staker.toLowerCase();
-		
-		// is current user
-		if (staker === currentAccount.toLowerCase()) {
-			hideSpinner('#spinBtnUnlock');
-			
-			let actionFrame = time.valueOf();
-			actionFrameTime = new Date();
-			actionFrameTime.setTime(actionFrame * 1000);
-			
-			toggleUnlockBox(currentAccount.toLowerCase());
-		}
-	}
-}
  
 function callbackEventForSale(stakeId, stakedHearts, stakeShares, lockedDay, stakedDays, unlockedDay, seller, priceHearts) {
 	// account available
