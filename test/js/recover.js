@@ -17,7 +17,13 @@ window.addEventListener('load', (event) => {
 	init();
 });
 
-function init() {	
+function init() {
+	// Unlock button click listener
+	document.getElementById('btnUnlock').addEventListener("click", function() {
+		console.log("Unlock Button clicked");
+		unlockActionFrame();
+	});
+	
 	// Set Recovery button click event listener
 	document.getElementById('btnSet').addEventListener("click", function() {
 		let recovery = document.getElementById('inputAddress').value;

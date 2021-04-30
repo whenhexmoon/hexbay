@@ -1,6 +1,4 @@
 // EVENTS
-let recoverySetEvents;
-let sub;
 
 // Init Event Listener
 function initHexEvents() {
@@ -107,7 +105,7 @@ function initRecoverySetEvents() {
 	
 	
 	
-	recoverySetEvents = bayContract.RecoverySet(
+	let recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
 	);
