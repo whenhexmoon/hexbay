@@ -35,10 +35,14 @@ function formatOwner(stake) {
 			return "You";
 		} else {
 			//e.g. "0x1234...5678";
-			owner = owner.substring(2, 6) + "..." + owner.substring(36, 40);
-			return "0x" + owner.toUpperCase();
+			return formatAddress(owner);
 		}
 	} else {
 		return "0x0";
 	}
+}
+
+function formatAddress(address) {
+	address = address.substring(2, 6) + "..." + address.substring(36, 40);
+	return "0x" + address.toUpperCase();
 }

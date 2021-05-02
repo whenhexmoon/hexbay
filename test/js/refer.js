@@ -37,6 +37,10 @@ function resetData() {
 	$("#refTable > tbody").empty();
 }
 
+function callbackEventReferralUsed(staker, referral, amount) {
+	addRefToTable(staker, amount)
+}
+
 function showRefLink() {
 	let link = "hexbay.win/?ref=";
 	
@@ -61,4 +65,20 @@ function copyLink() {
 
 	/* Alert the copied text */
 	alert("Copied " + input.value);
+}
+
+function addRefToTable(staker, amount) {
+	
+	var addressFormat = formatAddress(staker);
+	
+	var amount = amount.div(10 ** 8);
+	var amountNumber = numeral(amount.toNumber());
+	var amountFormat = formatHex(amount);
+	
+	$('#refTable').append(
+		'<tr>' +
+		'<td class="align-middle">' + addressFormat + '</td>' +
+		'<td class="align-middle">' + amountFormat + '</td>' +
+		'</tr>'
+	);
 }
