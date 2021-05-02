@@ -79,7 +79,7 @@ function addRefToTable(staker, amount) {
 	$('#refTable').append(
 		'<tr>' +
 		'<td class="align-middle">' + addressFormat + '</td>' +
-		'<td class="align-middle">' + amountFormat + '</td>' +
+		'<td class="align-middle">' + amountFormat + ' HEX' + '</td>' +
 		'</tr>'
 	);
 }
