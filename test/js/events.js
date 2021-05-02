@@ -135,6 +135,10 @@ function initReferralUsed() {
 	referralEvents.watch(function(error, result) {
 		console.log(result);
 	});
+	
+	referralEvents.get(function(error, result) {
+		console.log(result);
+	});
 }
 
 function initActionFrameUnlockEvents() {
