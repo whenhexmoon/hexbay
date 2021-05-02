@@ -109,8 +109,12 @@ function initReferralUsed() {
 		{ fromBlock: 0, toBlock: 'latest' }
 	);
 	
-	referralEvents.watch(function(error, result) {
-		console.log(result);
+	referralEvents.watch(function(error, event) {
+		if (!error) {
+			eventReferralUsed(event);
+		} else {
+			console.log(error);
+		}
 	});
 }
 
@@ -143,6 +147,14 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventReferralUsed(event) {
+	let args = event.args;
+	let staker = args.staker;
+	let referral = args.referral;
+	let amount = args.amount;
+	callbackEventReferralUsed(staker, referral, amount);
 }
 
 function eventActionFrameUnlock(event) {
