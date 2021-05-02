@@ -136,9 +136,9 @@ function initReferralUsed() {
 		console.log(result);
 	});
 	
-	referralEvents.get(function(error, result) {
+	/*referralEvents.get(function(error, result) {
 		console.log(result);
-	});
+	});*/
 }
 
 function initActionFrameUnlockEvents() {
