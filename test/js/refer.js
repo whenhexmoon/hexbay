@@ -98,19 +98,26 @@ function calcUserStats(staker, amount) {
 	
 	refStats = [addresses, stakes, amount];	// Array with 3 values
 
-	//refStatsFormat = formatUserstats(refStats);
-	showRefStats();
+	let refStatsFormat = formatRefStats(refStats);
+	showRefStats(refStatsFormat);
 }
 
-function showRefStats() {
+function formatRefStats() {
+	let addresses = refStats[0].size;
+	let stakes = refStats[1];
+	let rewardNumber = numeral(refStats[2].toNumber());
+	let reward = formatHex(rewardNumber);;
+	
+	return [addresses, stakes, reward];
+}
+
+function showRefStats(stats) {
 	// Addresses
-	$('#statRefsUnique').text(refStats[0].size).show();
+	$('#statRefsUnique').text(stats[0]).show();
 	
 	// Stakes
-	$('#statRefsTotal').text(refStats[1]).show();
+	$('#statRefsTotal').text(stats[1]).show();
 	
 	// Reward
-	let rewardNumber = numeral(refStats[2].toNumber());
-	let reward = formatHex(rewardNumber);
-	$('#statReward').text(reward + " HEX").show();
+	$('#statReward').text(stats[2] + " HEX").show();
 }
