@@ -97,8 +97,20 @@ function calcUserStats(staker, amount) {
 	addresses.add(staker.toLowerCase());
 	
 	refStats = [addresses, stakes, amount];	// Array with 3 values
-	
-	console.log(refStats);
+
 	//refStatsFormat = formatUserstats(refStats);
-	//showUserstats(refStatsFormat);
+	showRefStats();
+}
+
+function showRefStats() {
+	// Addresses
+	$('#statRefsUnique').text(refStats[0].size).show();
+	
+	// Stakes
+	$('#statRefsTotal').text(refStats[1]).show();
+	
+	// Reward
+	let rewardNumber = numeral(refStats[2].toNumber());
+	let reward = formatHex(rewardNumber);
+	$('#statReward').text(reward + " HEX").show();
 }
