@@ -1,3 +1,5 @@
+let refStats = [new Set(), 0, new BN()];
+
 // hexContract, bayContract available
 window.addEventListener('load', (event) => {	
 	console.log('page is fully loaded');
@@ -38,6 +40,7 @@ function resetData() {
 }
 
 function callbackEventReferralUsed(staker, referral, amount) {
+	calcUserStats(staker, amount);
 	addRefToTable(staker, amount);
 
 }
@@ -82,4 +85,18 @@ function addRefToTable(staker, amount) {
 		'<td class="align-middle">' + amountFormat + ' HEX' + '</td>' +
 		'</tr>'
 	);
+}
+
+function calcUserStats(staker, amount) {
+	let addresses = refStats[0];
+	let stakes = refStats[1]++;
+	let amount = refStats[2].add(amount);
+	
+	addresses.add(staker.toLowerCase());
+	
+	refStats = [addresses.size, stakes, amount];	// Array with 3 values
+	
+	console.log(refStats);
+	//refStatsFormat = formatUserstats(refStats);
+	//showUserstats(refStatsFormat);
 }
