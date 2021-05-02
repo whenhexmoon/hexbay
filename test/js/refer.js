@@ -1,6 +1,6 @@
 var BN = web3.BigNumber;
 
-let refStats = [new Set(), 0, new BN()];
+let refStats = [new Set(), 0, new BN(0)];
 
 // hexContract, bayContract available
 window.addEventListener('load', (event) => {	
