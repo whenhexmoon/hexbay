@@ -132,7 +132,7 @@ function initReferralUsed() {
 		{ fromBlock: 0, toBlock: 'latest' }
 	);
 	
-	referralEvents.get(function(error, result) {
+	referralEvents.watch(function(error, result) {
 		console.log(result);
 	});
 }
