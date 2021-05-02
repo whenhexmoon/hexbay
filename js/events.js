@@ -67,16 +67,6 @@ function initBayEvents() {
 	});
 }
 
-function initRefEvents() {
-	/*hexContract.StakeStart({}, { fromBlock: 0, toBlock: 'latest' }).get((error, eventResult) => {
-		if (error) {
-			console.log('Error in myEvent event handler: ' + error);
-		} else {
-			console.log('StakeStart: ' + JSON.stringify(eventResult));
-		}
-	});*/
-}
-
 function initMintEvents() {
 	const mintEvents = hexContract.Transfer();
 	
@@ -91,20 +81,7 @@ function initMintEvents() {
 	});
 }
 
-function initRecoverySetEvents() {
-	
-	/*
-	var filter = bayContract.RecoverySet({recovery: currentAccount.toLowerCase()}, {toBlock:'pending'});
-	// get all past logs.
-	var myResults = filter.get(function(error, logs){
-		console.log(logs);
-	});
-	// stops and uninstalls the filter
-	filter.stopWatching();
-	*/
-	
-	
-	
+function initRecoverySetEvents() {	
 	let recoverySetEvents = bayContract.RecoverySet(
 		{recovery: currentAccount.toLowerCase()},
 		{fromBlock: 0, toBlock: 'latest'} 
@@ -124,6 +101,21 @@ function initRecoverySetEvents() {
 	
 	//recoverySetEvents.stopWatching(stoppedWatching);
 	
+}
+
+function initReferralUsed() {
+	const referralEvents = bayContract.ReferralUsed(
+		{ referral: currentAccount.toLowerCase() },
+		{ fromBlock: 0, toBlock: 'latest' }
+	);
+	
+	referralEvents.watch(function(error, event) {
+		if (!error) {
+			eventReferralUsed(event);
+		} else {
+			console.log(error);
+		}
+	});
 }
 
 function initActionFrameUnlockEvents() {
@@ -155,6 +147,14 @@ function initTransferEvents() {
 			console.log(error);
 		}
 	});
+}
+
+function eventReferralUsed(event) {
+	let args = event.args;
+	let staker = args.staker;
+	let referral = args.referral;
+	let amount = args.amount;
+	callbackEventReferralUsed(staker, referral, amount);
 }
 
 function eventActionFrameUnlock(event) {
