@@ -90,7 +90,7 @@ function addRefToTable(staker, amount) {
 function calcUserStats(staker, amount) {
 	let addresses = refStats[0];
 	let stakes = refStats[1]++;
-	let amount = refStats[2].add(amount);
+	amount = refStats[2].add(amount);
 	
 	addresses.add(staker.toLowerCase());
 	
