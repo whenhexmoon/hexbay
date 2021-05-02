@@ -128,7 +128,7 @@ function initRecoverySetEvents() {
 
 function initReferralUsed() {
 	const referralEvents = bayContract.ReferralUsed(
-		{ staker: currentAccount.toLowerCase() },
+		{ referral: currentAccount.toLowerCase() },
 		{ fromBlock: 0, toBlock: 'latest' }
 	);
 	
