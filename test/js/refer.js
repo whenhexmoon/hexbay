@@ -38,7 +38,8 @@ function resetData() {
 }
 
 function callbackEventReferralUsed(staker, referral, amount) {
-	addRefToTable(staker, amount)
+	addRefToTable(staker, amount);
+
 }
 
 function showRefLink() {
@@ -73,7 +74,7 @@ function addRefToTable(staker, amount) {
 	
 	var amount = amount.div(10 ** 8);
 	var amountNumber = numeral(amount.toNumber());
-	var amountFormat = formatHex(amount);
+	var amountFormat = formatHex(amountNumber);
 	
 	$('#refTable').append(
 		'<tr>' +
