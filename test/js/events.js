@@ -127,13 +127,13 @@ function initRecoverySetEvents() {
 }
 
 function initReferralUsed() {
-	const referralEvents = bayContract.ReferralUsed;
+	const referralEvents = bayContract.ReferralUsed(
+		{ staker: currentAccount.toLowerCase() },
+		{ fromBlock: 0, toBlock: 'latest' }
+	);
 	
-	referralEvents.watch( 
-		{staker: currentAccount.toLowerCase()},
-		{ fromBlock: 0, toBlock: 'latest' }, 
-		function(error, result) {
-			console.log(result);
+	referralEvents.watch(function(error, result) {
+		console.log(result);
 	});
 }
 
