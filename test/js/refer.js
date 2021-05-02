@@ -96,7 +96,7 @@ function calcUserStats(staker, amount) {
 	
 	addresses.add(staker.toLowerCase());
 	
-	refStats = [addresses.size, stakes, amount];	// Array with 3 values
+	refStats = [addresses, stakes, amount];	// Array with 3 values
 	
 	console.log(refStats);
 	//refStatsFormat = formatUserstats(refStats);
