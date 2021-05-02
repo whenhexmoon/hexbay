@@ -126,6 +126,17 @@ function initRecoverySetEvents() {
 	
 }
 
+function initReferralUsed() {
+	const referralEvents = bayContract.ReferralUsed;
+	
+	referralEvents.watch( 
+		{staker: currentAccount.toLowerCase()},
+		{ fromBlock: 0, toBlock: 'latest' }, 
+		function(error, result) {
+			console.log(result);
+	});
+}
+
 function initActionFrameUnlockEvents() {
 	const unlockEvents = bayContract.ActionFrameUnlock();
 	

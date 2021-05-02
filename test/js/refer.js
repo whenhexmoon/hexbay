@@ -13,7 +13,7 @@ function init() {
 	});
 	
 	// Event listener
-	initRefEvents();
+	initReferralUsed();
 }
 
 function update() {	
