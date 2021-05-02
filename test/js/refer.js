@@ -1,3 +1,5 @@
+var BN = web3.BigNumber;
+
 let refStats = [new Set(), 0, new BN()];
 
 // hexContract, bayContract available
