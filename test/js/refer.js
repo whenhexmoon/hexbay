@@ -105,8 +105,11 @@ function calcUserStats(staker, amount) {
 function formatRefStats() {
 	let addresses = refStats[0].size;
 	let stakes = refStats[1];
-	let rewardNumber = numeral(refStats[2].toNumber());
-	let reward = formatHex(rewardNumber);;
+	
+	let amount = refStats[2];
+	amount = amount.div(10 ** 8);
+	let rewardNumber = numeral(amount.toNumber());
+	let reward = formatHex(rewardNumber);
 	
 	return [addresses, stakes, reward];
 }
