@@ -23,12 +23,6 @@ var hexTAddress = "0xF1633e8D441F6F5E953956e31923F98B53c9fd89";
 Contract.setProvider('https://ropsten.infura.io/v3/95404699f53c41cb9d3eb320b9462490');
 var hexTContract = new Contract(hexTAbi, hexTAddress);
 
-/*contract.methods.somFunc().send({from: ....})
-.on('receipt', function(){
-    ...
-});*/
-
-
 
 
 document.getElementById('btnConnect').addEventListener("click", connect);
@@ -51,16 +45,12 @@ function connect() {
 }
 
 // mint 1 million HEX for given address
-function mintHearts(receiver) {
-	hexTContract.mintHearts(receiver, function(error, result) {
-		if(!error) {
-			console.log("Minting: 1M HEX");
-			// show button spinner
-			showSpinner('#spinBtnMint');
-		} else {
-			console.log(error);
-		}
-	});
+function mintHearts() {
+    hexTContract.methods.mintHearts('0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825')
+    .send({from: '0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825'})
+    .on('receipt', function(){
+        //
+    });
 }
 },{"web3":401,"web3-eth-contract":379}],2:[function(require,module,exports){
 module.exports={
