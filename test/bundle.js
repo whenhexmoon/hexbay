@@ -3,7 +3,6 @@ const Web3 = require("web3");
 
 async function init() {
   if (window.ethereum) {
-    await window.ethereum.send('eth_requestAccounts');
     window.web3 = new Web3(window.ethereum);
     console.log(true);
     return true;
