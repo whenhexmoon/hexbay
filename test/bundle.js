@@ -5,12 +5,8 @@ var Contract = require('web3-eth-contract');
 
 function init() {
     if (window.ethereum) {
-      window.web3 = new Web3(window.ethereum);
-      console.log(true);
-      return true;
+        web3 = new Web3(Web3.givenProvider);
     }
-    console.log(false);
-    return false;
   }
   init();
 
@@ -20,7 +16,7 @@ var hexTAbi = [ { "inputs": [], "payable": false, "stateMutability": "nonpayable
 var hexTAddress = "0xF1633e8D441F6F5E953956e31923F98B53c9fd89";
 
 // set provider for all later instances to use
-Contract.setProvider('wss://ropsten.infura.io/ws/v3/95404699f53c41cb9d3eb320b9462490');
+Contract.setProvider(Web3.givenProvider);
 var hexTContract = new Contract(hexTAbi, hexTAddress);
 
 
