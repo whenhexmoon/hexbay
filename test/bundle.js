@@ -1,6 +1,6 @@
 (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 const Web3 = require("web3");
-const web3 = new Web3('https://ropsten.infura.io/v3/95404699f53c41cb9d3eb320b9462490');
+const web3 = new Web3('wss://ropsten.infura.io/ws/v3/95404699f53c41cb9d3eb320b9462490');
 var Contract = require('web3-eth-contract');
 
 function init() {
@@ -20,7 +20,7 @@ var hexTAbi = [ { "inputs": [], "payable": false, "stateMutability": "nonpayable
 var hexTAddress = "0xF1633e8D441F6F5E953956e31923F98B53c9fd89";
 
 // set provider for all later instances to use
-Contract.setProvider('https://ropsten.infura.io/v3/95404699f53c41cb9d3eb320b9462490');
+Contract.setProvider('wss://ropsten.infura.io/ws/v3/95404699f53c41cb9d3eb320b9462490');
 var hexTContract = new Contract(hexTAbi, hexTAddress);
 
 
