@@ -20,6 +20,7 @@ async function init() {
 init();
 
 document.getElementById('btnConnect').addEventListener("click", connect);
+document.getElementById('btnBuy').addEventListener("click", unlockActionFrame);
 
 function connect() {
 	console.log("Connect button clicked");
@@ -35,6 +36,18 @@ function connect() {
         console.error(err);
       }
     });
+}
+
+function unlockActionFrame() {
+	bayContract.unlockActionFrame(function(error, result) {
+		if (!error) {
+			console.log("Unlocking action frame");
+			// show button spinner
+			showSpinner('#spinBtnUnlock');
+		} else {
+			console.log(error);
+		}
+	});
 }
 },{"web3":401}],2:[function(require,module,exports){
 module.exports={
