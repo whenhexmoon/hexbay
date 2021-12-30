@@ -5,8 +5,10 @@ const ethEnabled = async () => {
   if (window.ethereum) {
     await window.ethereum.send('eth_requestAccounts');
     window.web3 = new Web3(window.ethereum);
+    console.log(true);
     return true;
   }
+  console.log(false);
   return false;
 }
 },{"web3":401}],2:[function(require,module,exports){
