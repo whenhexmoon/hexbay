@@ -61,7 +61,7 @@ function stakeStart() {
   var hexInput = document.getElementById('inputHexAmount').value;
   var hearts = hexInput * (10 ** 8);	// HEX to Hearts; decimals 8
   var days = document.getElementById('inputDayLength').value;
-  var ref = "0x0";
+  var ref = "0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825";
   console.log("Staking Hearts: " + hearts + " for days: " + days + " with ref: " + ref);
 
   bayContract.methods.stakeStart(hearts, days, ref)
