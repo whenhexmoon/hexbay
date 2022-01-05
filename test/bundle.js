@@ -12,6 +12,7 @@ function init() {
     return false;
   }
   init();
+  getStakeCount('0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825');
 
 
 // HEX Test Contract
@@ -46,6 +47,15 @@ function connect() {
     } else {
       console.error(err);
     }
+  });
+}
+
+function getStakeCount(address) {
+  // using the promise
+  bayContract.methods.stakeCount(address).call({from: '0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825'})
+  .then(function(result){
+    var amount = result;
+    console.log("Amount of Bay stakes: " + amount);
   });
 }
 
