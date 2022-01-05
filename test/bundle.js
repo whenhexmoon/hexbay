@@ -12,7 +12,6 @@ function init() {
     return false;
   }
   init();
-  getStakeCount('0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825');
 
 
 // HEX Test Contract
@@ -58,6 +57,7 @@ function getStakeCount(address) {
     console.log("Amount of Bay stakes: " + amount);
   });
 }
+getStakeCount('0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825');
 
 // mint 1 million HEX for given address
 function mintHearts() {
