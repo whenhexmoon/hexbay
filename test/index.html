@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>HexBay - Buy</title>
+  <title>HexBay - Stake</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" crossorigin="anonymous">
   
+  <!-- The legacy-web3 script must run BEFORE your other scripts. -->
+  <script src="https://unpkg.com/@metamask/legacy-web3@latest/dist/metamask.web3.min.js"></script>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
@@ -40,6 +42,10 @@
 
 	.form-control::-webkit-input-placeholder {
 		color: gray;
+	}
+	
+	.user-stat {
+		font-size: 1.25rem;
 	}
 	
 	.form-control-lg {
@@ -86,8 +92,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="./mint.html">Mint</a>
 					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./stake.html">Stake</a>
+					<li class="nav-item active">
+						<a class="nav-link" href="#">Stake</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./refer.html">Refer</a>
@@ -95,8 +101,8 @@
 					<li class="nav-item">
 						<a class="nav-link" href="./recover.html">Recover</a>
 					</li>
-					<li class="nav-item active">
-						<a class="nav-link" href="#">Buy</a>
+					<li class="nav-item">
+						<a class="nav-link" href="./buy.html">Buy</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="./sell.html">Sell</a>
@@ -113,34 +119,49 @@
 	<button type="button" id="btnConnect" class="btn btn-secondary text-uppercase mx-2">Connect</button>
 </div>
 
-<!-- Buy Stake -->
-<div class="container" style="margin-top: 50px; margin-bottom: 50px;">	
+<!-- Start new Stake -->
+<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
 	<div class="container mx-auto px-0" style="max-width: 600px;">
-		<h2>Buy a Stake</h2>
+		<h2>Start new Stake</h2>
 		
-		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputHexPrice" placeholder="12345.67 HEX Price" name="price">
-		<button type="button" id="btnApprove" class="btn btn-secondary btn-lg text-uppercase">Approve</button>
-		<button type="button" id="btnBuy" class="btn btn-primary btn-lg text-uppercase">
-			<span id="spinBtnBuy" class="spinner-border spinner-border-sm spinner-size"></span>
-			Buy
+		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputHexAmount" placeholder="12345.67 HEX" name="amount">
+		<input type="text" class="form-control form-control-lg bg-dark text-white border border-0" id="inputDayLength" placeholder="5555 Days" name="length">
+		<button type="button" id="btnApprove" class="btn btn-secondary btn-lg text-uppercase">
+			<span id="spinBtnApprove" class="spinner-border spinner-border-sm spinner-size"></span>
+			Approve
+		</button>
+		<button type="button" id="btnStake" class="btn btn-primary btn-lg text-uppercase">
+			<span id="spinBtnStake" class="spinner-border spinner-border-sm spinner-size"></span>
+			Stake
 		</button>
 	</div>
 </div>
 
-<!-- Buyable Stakes -->
-<div class="container" style="margin-top: 50px; margin-bottom: 50px;">
-	<h2>Buyable Stakes</h2>
+<!-- User Stats -->
+<div class="container" style="margin-top: 70px; margin-bottom: 24px;">
+	<div class="row text-center">
+		<div class="col-lg-3"><h2 id="statStakes">0</h2><span class="user-stat">Stakes</span></div>
+		<div class="col-lg-3"><h2 id="statPrincipal">0 HEX</h2><span class="user-stat">Principal</span></div>
+		<div class="col-lg-3"><h2 id="statShares">0</h2><span class="user-stat">T-Shares</span></div>
+		<div class="col-lg-3"><h2 id="statInterest">0 HEX</h2><span class="user-stat">Interest</span></div>
+	</div>
+</div>
+
+<!-- Active Stakes -->
+<div class="container" style="margin-top: 24px; margin-bottom: 50px;">
+	<h2>Active Stakes</h2>
 	
 	<div class="table-responsive">
 		<table id="stakeTable" class="table table-dark table-hover text-center">
 		<thead>
 		  <tr>
+			<th>Start</th>
 			<th>End</th>
 			<th>Progress</th>
-			<th>Seller</th>
+			<th>Principle</th>
 			<th>T-Shares</th>
+			<th>Interest</th>
 			<th>Current Value</th>
-			<th>Price</th>
 			<th></th>
 		  </tr>
 		</thead>
@@ -149,6 +170,7 @@
 	  </table>
 	</div>
 </div>
+
 
 <!-- Footer -->
 <footer class="footer">
