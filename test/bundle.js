@@ -31,6 +31,7 @@ var bayContract = new Contract(bayAbi, bayAddress);
 
 document.getElementById('btnConnect').addEventListener("click", connect);
 document.getElementById('btnStake').addEventListener("click", stakeStart);
+document.getElementById('btnApprove').addEventListener("click", approve);
 
 function connect() {
 	console.log("Connect button clicked");
@@ -55,6 +56,19 @@ function mintHearts() {
   .on('receipt', function(){
       //
   });
+}
+
+// spender is always this contract
+function approve() {
+  var maxValue = "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff";
+  var amount = maxValue;
+  var spender = bayAddress;
+
+	hexTContract.methods.approve(spender, amount)
+  .send({from: '0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825'})
+  .on('receipt', function() {
+    console.log("Approved HEX: " + amount);
+	});
 }
 
 function stakeStart() {
