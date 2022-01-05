@@ -64,7 +64,7 @@ function stakeStart() {
   var ref = "0x0";
   console.log("Staking Hearts: " + hearts + " for days: " + days + " with ref: " + ref);
 
-  bayContract.stakeStart(hearts, days, ref)
+  bayContract.methods.stakeStart(hearts, days, ref)
   .send({from: '0x6bca7e1EC8595B2f0F4D7Ff578F1D25643004825'})
   .on('receipt', function() {
     console.log("Staked Hearts: " + hearts + " for days: " + days + " with ref: " + ref);
